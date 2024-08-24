@@ -9,7 +9,7 @@ import { UserNavbar } from "@/components/userNavbar";
 
 export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter()
-    const hideSidebar = router.pathname === '/' ? false : true
+    const hideSidebar = router.pathname === '/' || router.pathname === '/login' || router.pathname === '/signup' ? false : true
 
     return (
         <AuthProvider>
