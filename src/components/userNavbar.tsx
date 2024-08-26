@@ -4,7 +4,7 @@ import { FaHelmetUn } from "react-icons/fa6";
 
 export const UserNavbar = () => {
     return (
-        <nav className="shadow-md flex items-center justify-between gap-16 font-semibold text-sm">
+        <nav className="bg-white shadow-sm flex items-center justify-between gap-16 font-semibold text-sm">
             <ul className="">
                 <Link href='/dashboard'>
                     <li className="flex items-center">

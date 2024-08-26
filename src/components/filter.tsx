@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export const Filter = () => {
     return (
-        <div className="flex gap-10 p-4 border my-4">
+        <div className="flex gap-10 p-4 border my-4 bg-white">
             <div className="flex  gap-2 grow">
                 <input className="outline-none w-full border p-1.5 rounded-md" type="text" placeholder="Rut" />
                 <input className="outline-none w-full border p-1.5 rounded-md" type="text" placeholder="Nombre" />

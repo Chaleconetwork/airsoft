@@ -1,4 +1,4 @@
-import { iAuthContext, iAuthProvider } from "@/interfaces/types";
+import { iAuthContext, iAuthProvider } from "@/interfaces/authTypes";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext<iAuthContext | undefined>(undefined);

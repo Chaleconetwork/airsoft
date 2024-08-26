@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export interface iRole {
     roleName: string,
 }
@@ -10,12 +8,13 @@ export interface iUser {
     password?: string;
 }
 
-export interface iAuthContext {
-    isAuthenticated: boolean;
-    login: (token: string) => void;
-    logout: () => void;
-}
-
-export interface iAuthProvider {
-    children: ReactNode;
+export interface iClient {
+    rut?: string;
+    fullname?: string;
+    email?: string;
+    phone?: string;
+    creationDate: string;
+    createdBy: string;
+    lastModifiedDate: string;
+    lastModifiedBy: string;
 }

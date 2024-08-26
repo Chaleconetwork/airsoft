@@ -5,3 +5,7 @@
 :root {
   font-family: 'Onest Variable', sans-serif;
 }
+
+body {
+  background-color: rgba(241, 241, 241, 0.466);
+}
