@@ -34,12 +34,12 @@ export default function Home() {
                 <PriceCard
                     title='Plan Mediano'
                     content='Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia dignissimos beatae deserunt, ipsa sapiente officiis velit qui? Neque, quibusdam delectus, eius cumque nam est cupiditate laudantium sapiente aspernatur tempore quia?'
-                    price={10}
+                    price={3990}
                 />
                 <PriceCard
                     title='Plan Premium'
                     content='Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia dignissimos beatae deserunt, ipsa sapiente officiis velit qui? Neque, quibusdam delectus, eius cumque nam est cupiditate laudantium sapiente aspernatur tempore quia?'
-                    price={30}
+                    price={4990}
                 />
             </main>
             <footer className="p-4">
