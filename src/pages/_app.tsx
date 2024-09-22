@@ -13,19 +13,19 @@ export default function App({ Component, pageProps }: AppProps) {
 
     return (
         <AuthProvider>
-            <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen">
+            {
+                !hideSidebar ? <Navbar /> : <UserNavbar />
+            }
+            <main className={`${hideSidebar && 'flex'} flex-grow`}>
                 {
-                    !hideSidebar ? <Navbar /> : <UserNavbar />
+                    hideSidebar && <Sidebar />
                 }
-                <main className={`${hideSidebar && 'flex'} flex-grow`}>
-                    {
-                        hideSidebar && <Sidebar />
-                    }
-                    <div className={`h-full ${hideSidebar && 'p-4 w-full'} `}>
-                        <Component {...pageProps} />
-                    </div>
-                </main>
-            </div>
-        </AuthProvider>
+                <div className={`h-full ${hideSidebar && 'p-4 w-full'}`}>
+                    <Component {...pageProps} />
+                </div>
+            </main>
+        </div>
+    </AuthProvider>
     )
 }

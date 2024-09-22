@@ -1,29 +1,40 @@
-import Image from "next/image"
-import Link from "next/link"
-import { FaUser } from "react-icons/fa";
-import { PiUsersFourFill } from "react-icons/pi";
-import { FaDollarSign } from "react-icons/fa";
-import { GiField } from "react-icons/gi";
-import { FaPlay } from "react-icons/fa";
-import { MdOutlinePayment } from "react-icons/md";
-import { FaDisplay } from "react-icons/fa6";
-import { RiTeamFill } from "react-icons/ri";
-import { FaUserTie } from "react-icons/fa";
+import { FaUser, FaDollarSign, FaDisplay, FaUserTie, FaPlay, PiUsersFourFill, GiField, MdOutlinePayment, RiTeamFill } from "@/utils/icons/sidebarIcons";
+import { useState } from "react";
+import Link from "next/link";
 
-export const Sidebar = () => {
+const links = [
+    { href: '/dashboard', icon: <FaDisplay />, label: 'Panel' },
+    { href: '/clients', icon: <FaUserTie />, label: 'Clientes' },
+    { href: '/sales', icon: <FaDollarSign />, label: 'Ventas' },
+    { href: '/players', icon: <PiUsersFourFill />, label: 'Jugadores' },
+    { href: '/games', icon: <FaPlay />, label: 'Partidas' },
+    { href: '/teams', icon: <RiTeamFill />, label: 'Equipos' },
+    { href: '/fields', icon: <GiField />, label: 'Canchas' },
+    { href: '/users', icon: <FaUser />, label: 'Usuarios' },
+    { href: '/payments', icon: <MdOutlinePayment />, label: 'Métodos de pago' }
+];
+
+export const Sidebar: React.FC = () => {
+    const [activeLink, setActiveLink] = useState<string>('/dashboard');
+
+    const handleLinkClick = (link: string) => {
+        setActiveLink(link);
+    };
+
     return (
         <nav className="font-semibold bg-white border">
             <ul className="w-[250px] p-4">
-                <Link href='/dashboard'><li className="w-full hover:bg-blue-200 hover:text-blue-600 my-1 flex gap-1 items-center rounded-md px-4 py-3 bg-blue-200 text-blue-600"><FaDisplay /> Panel</li></Link>
-                <Link href='/clients'><li className="w-full hover:bg-blue-200 hover:text-blue-600 my-1 flex gap-1 items-center rounded-md px-4 py-3"><FaUserTie /> Clientes</li></Link>
-                <Link href='/sales'><li className="w-full hover:bg-blue-200 hover:text-blue-600 flex gap-1 items-center rounded-md px-4 py-3"><FaDollarSign /> Ventas</li></Link>
-                <Link href='/players'><li className="w-full hover:bg-blue-200 hover:text-blue-600 flex gap-1 items-center rounded-md px-4 py-3"><PiUsersFourFill /> Jugadores</li></Link>
-                <Link href='/games'><li className="w-full hover:bg-blue-200 hover:text-blue-600 flex gap-1 items-center rounded-md px-4 py-3"><FaPlay /> Partidas</li></Link>
-                <Link href='/teams'><li className="w-full hover:bg-blue-200 hover:text-blue-600 flex gap-1 items-center rounded-md px-4 py-3"><RiTeamFill /> Equipos</li></Link>
-                <Link href='/fields'><li className="w-full hover:bg-blue-200 hover:text-blue-600 flex gap-1 items-center rounded-md px-4 py-3"><GiField /> Canchas</li></Link>
-                <Link href='/users'><li className="w-full hover:bg-blue-200 hover:text-blue-600 flex gap-1 items-center rounded-md px-4 py-3"><FaUser /> Usuarios</li></Link>
-                <Link href='/payments'><li className="w-full hover:bg-blue-200 hover:text-blue-600 flex gap-1 items-center rounded-md px-4 py-3"><MdOutlinePayment /> Metodos de pago</li></Link>
+                {links.map(({ href, icon, label }) => (
+                    <Link key={href} href={href}>
+                        <li
+                            className={`w-full my-1 flex gap-1 items-center rounded-md px-4 py-3 ${activeLink === href ? 'bg-blue-200 text-blue-600' : ''}`}
+                            onClick={() => handleLinkClick(href)}
+                        >
+                            {icon} {label}
+                        </li>
+                    </Link>
+                ))}
             </ul>
         </nav>
-    )
-}
+    );
+};

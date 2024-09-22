@@ -1,16 +1,36 @@
-import { Resume } from "@/components/dashboard/resume";
+import { GaugeChart } from "@/components/gaugeChart";
+import { KPICard } from "@/components/KPICard";
+import Select from "@/components/select";
 
 export default function Dashboard() {
+    function handleChange() {
+
+    }
+
     return (
-        <div className="">
-            <h1 className="text-2xl font-semibold opacity-65">Panel</h1>
-            <section className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4">
-                <Resume title='Ventas' cant={20} color='' />
-                <Resume title='Clientes' cant={80} color='' />
-                <Resume title='Partidas' cant={2} color='' />
-                <Resume title='Usuarios' cant={4} color='' />
-                <Resume title='Canchas' cant={2} color='' />
+        <div className="flex flex-col h-full w-full">
+            <h1 className="text-2xl font-semibold opacity-65 mb-4">Panel</h1>
+            <div className="flex gap-2">
+                <Select label='Año' onChange={handleChange} options={[{ value: '2024', label: '2024' }, { value: '2023', label: '2023' }]} value="Año" />
+                <Select label='Mes' onChange={handleChange} options={[{ value: '1', label: 'Enero' }, { value: '2', label: 'Febrero' }]} value="Mes" />
+                <Select label='Dia' onChange={handleChange} options={[{ value: '1', label: '1' }, { value: '2', label: '2' }]} value="Dia" />
+            </div>
+            <section className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-4">
+                <KPICard money={90} title="Total ingresos" />
+                <KPICard money={70} title="Total gastos" />
+                <KPICard money={90} title="Total beneficio" />
+                <KPICard money={90} title="% Margen" />
             </section>
+            <main className="flex justify-between gap-2 grow">
+                <section className="bg-white grow p-4 rounded-md border">
+                    <h2 className="text-xl font-semibold">Total beneficio por mes</h2>
+                </section>
+                <section className="bg-white flex flex-col gap-2 p-4 rounded-md border">
+                    <h2 className="text-xl font-semibold mb-4">Mejores clientes</h2>
+                    <GaugeChart />
+                    <GaugeChart />
+                </section>
+            </main>
         </div>
     )
 }
