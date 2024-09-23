@@ -1,6 +1,3 @@
-import { PriceCard } from "@/components/prices/priceCard";
-import Image from "next/image";
-
 export default function Home() {
     return (
         <div className="mx-auto w-full h-full bg-gradient-to-r from-sky-500 to-blue-600 text-white">
