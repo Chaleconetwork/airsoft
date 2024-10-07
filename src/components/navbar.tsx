@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link"
 import { FaHelmetUn } from "react-icons/fa6";
+import logo from "../../public/logoairsoft.png"
 
 export const Navbar = () => {
     return (
@@ -9,9 +10,11 @@ export const Navbar = () => {
                 <Link href='/dashboard'>
                     <li className="flex items-center">
                         <Image
-                            src="/logoairsoft.png"
-                            width={130}
-                            height={0}
+                            className="w-28"
+                            priority={true}
+                            quality={100} // {number 1-100}
+                            loading="eager"
+                            src={logo}
                             alt="Picture of the author"
                         />
                     </li>

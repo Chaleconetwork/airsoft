@@ -32,17 +32,17 @@ export const Fetch = {
                 throw new Error(`HTTP error! status: ${response.statusText}`);
             }
 
-            if (filename) {
-                const blob = await response.blob();
-                const urlObject = window.URL.createObjectURL(blob);
-                const a = document.createElement('a')
-                a.href = urlObject;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(urlObject);
-            }
+            // if (filename) {
+            //     const blob = await response.blob();
+            //     const urlObject = window.URL.createObjectURL(blob);
+            //     const a = document.createElement('a')
+            //     a.href = urlObject;
+            //     a.download = filename;
+            //     document.body.appendChild(a);
+            //     a.click();
+            //     a.remove();
+            //     window.URL.revokeObjectURL(urlObject);
+            // }
 
             const jsonResponse = await response.json();
             return jsonResponse;

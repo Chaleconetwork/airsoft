@@ -1,11 +1,27 @@
 import { GaugeChart } from "@/components/gaugeChart";
 import { KPICard } from "@/components/KPICard";
 import Select from "@/components/select";
+import { Fetch } from "@/utils/api/fetch";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
     function handleChange() {
 
     }
+
+    const [usersCount, setUsersCount] = useState<number>(0)
+    async function getCountUsers() {
+        try {
+            const response = await Fetch.get('https://localhost:7274/api/Users')
+        setUsersCount(response.length)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    useEffect(() => {
+        getCountUsers()
+    }, [])
 
     return (
         <div className="flex flex-col h-full w-full">
@@ -16,7 +32,7 @@ export default function Dashboard() {
                 <Select label='Dia' onChange={handleChange} options={[{ value: '1', label: '1' }, { value: '2', label: '2' }]} value="Dia" />
             </div>
             <section className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-4">
-                <KPICard money={90} title="Total ingresos" />
+                <KPICard money={usersCount} title="Total ingresos" />
                 <KPICard money={70} title="Total gastos" />
                 <KPICard money={90} title="Total beneficio" />
                 <KPICard money={90} title="% Margen" />

@@ -29,26 +29,6 @@ export default function Clients() {
                         {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">8/25/2024</td> */}
                         {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Chaleco</td> */}
                     </tr>
-                    <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1111111-1</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">xxxx xxxx xxxx xxxx</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">xxxxx.xxxxx@gmail.com</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">+56 9 99999999</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Chaleco</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">8/25/2024</td>
-                        {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">8/25/2024</td> */}
-                        {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Chaleco</td> */}
-                    </tr>
-                    <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1111111-1</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">xxxx xxxx xxxx xxxx</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">xxxxx.xxxxx@gmail.com</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">+56 9 99999999</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Chaleco</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">8/25/2024</td>
-                        {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">8/25/2024</td> */}
-                        {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Chaleco</td> */}
-                    </tr>
                 </tbody>
             </table>
         </div>

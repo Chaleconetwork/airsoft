@@ -10,8 +10,7 @@ const links = [
     { href: '/games', icon: <FaPlay />, label: 'Partidas' },
     { href: '/teams', icon: <RiTeamFill />, label: 'Equipos' },
     { href: '/fields', icon: <GiField />, label: 'Canchas' },
-    { href: '/users', icon: <FaUser />, label: 'Usuarios' },
-    { href: '/payments', icon: <MdOutlinePayment />, label: 'Métodos de pago' }
+    { href: '/users', icon: <FaUser />, label: 'Usuarios' }
 ];
 
 export const Sidebar: React.FC = () => {

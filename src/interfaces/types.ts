@@ -3,9 +3,17 @@ export interface iRole {
 }
 
 export interface iUser {
-    // username: string;
+    rut: string;
     email?: string;
-    password?: string;
+    names?: string;
+    surnames?: string;
+    phone?: string;
+    username?: string;
+    roleName?: string;
+    creationDate?: string;
+    createdBy?: string;
+    lastModificationDate?: string;
+    lastModificationBy: string;
 }
 
 export interface iClient {
@@ -17,4 +25,12 @@ export interface iClient {
     createdBy: string;
     lastModifiedDate: string;
     lastModifiedBy: string;
+}
+
+export interface iSale {
+    id: number;
+    unitValue: number;
+    amount: number;
+    totalValue: number;
+    userId: string;
 }
