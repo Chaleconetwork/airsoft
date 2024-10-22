@@ -19,7 +19,7 @@ export const GenericRead = <T,>({ array, renderItem, headers }: Props<T>) => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 text-sm">
                 {array && array.length > 0 ? (
-                    array.map((item, index: number) => {
+                    array.map((item, index) => {
                         return (
                             <tr key={index} className="text-center">
                                 {renderItem(item)}
