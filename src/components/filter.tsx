@@ -1,6 +1,3 @@
-import Image from "next/image"
-import Link from "next/link"
-
 export const Filter = () => {
     return (
         <div className="flex gap-10 p-4 border my-4 bg-white text-sm rounded-lg">
