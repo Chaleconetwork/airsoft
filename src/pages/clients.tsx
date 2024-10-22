@@ -1,4 +1,4 @@
-import { GenericRead } from "@/components/crud/genericRead";
+import { GenericRead } from "../components/crud/genericRead";
 import { Filter } from "@/components/filter";
 import { iClient } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
