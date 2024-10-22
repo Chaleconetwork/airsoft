@@ -5,7 +5,8 @@ export const AuthContext = createContext<iAuthContext | undefined>(undefined);
 
 export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
+    const [isClient, setIsClient] = useState(false);
+    
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (token) {

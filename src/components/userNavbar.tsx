@@ -9,9 +9,12 @@ export const UserNavbar = () => {
                 <Link href='/dashboard'>
                     <li className="flex items-center">
                         <Image
+                            className="w-32"
                             src="/logoairsoft.png"
-                            width={130}
-                            height={0}
+                            width={32}
+                            height={32}
+                            priority
+                            unoptimized
                             alt="Picture of the author"
                         />
                     </li>
@@ -21,7 +24,7 @@ export const UserNavbar = () => {
                 <Link href='/'><li className="p-5 opacity-75">Reportes</li></Link>
                 <Link href='/'><li className="p-5 opacity-75">8/24/2024</li></Link>
                 <Link href='/'><li className="p-5 opacity-75">Chaleco | Administrador</li></Link>
-                <Link href='/'><li className="p-5"><span className="bg-blue-500 opacity-100 text-white rounded-full p-2.5">Cerrar sesión</span></li></Link>
+                <Link href='/'><li className="p-5"><span className="bg-blue-500 opacity-100 text-white rounded-2xl px-4 py-2">Cerrar sesión</span></li></Link>
             </ul>
         </nav>
     )

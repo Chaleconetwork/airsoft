@@ -3,16 +3,15 @@ import Link from "next/link"
 
 export const Filter = () => {
     return (
-        <div className="flex gap-10 p-4 border my-4 bg-white">
-            <div className="flex  gap-2 grow">
-                <input className="outline-none w-full border p-1.5 rounded-md" type="text" placeholder="Rut" />
-                <input className="outline-none w-full border p-1.5 rounded-md" type="text" placeholder="Nombre" />
-                <input className="outline-none w-full border p-1.5 rounded-md" type="text" placeholder="Compras" />
+        <div className="flex gap-10 p-4 border my-4 bg-white text-sm rounded-lg">
+            <div className="flex gap-2 grow">
+                <input className="outline-none w-full border p-1 rounded-md" type="text" placeholder="Buscador" />
             </div>
+            <div className=""></div>
             <div className="flex gap-2">
-                <button className="bg-blue-600 text-white px-8 py-1 rounded-full">Importar</button>
-                <button className="bg-yellow-600 text-white px-8 py-1 rounded-full">Exportar</button>
-                <button className="bg-green-600 text-white px-8 py-1 rounded-full">Crear</button>
+                <button className="px-8 border rounded-lg bg-sky-600 text-white">Importar</button>
+                <button className="px-8 border rounded-lg bg-red-600 text-white">Exportar</button>
+                <button className="px-8 border rounded-lg bg-green-600 text-white">Agregar</button>
             </div>
         </div>
     )

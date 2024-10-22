@@ -22,11 +22,11 @@ export const Sidebar: React.FC = () => {
 
     return (
         <nav className="font-semibold bg-white border">
-            <ul className="w-[250px] p-4">
+            <ul className="w-[250px] p-4 text-sm">
                 {links.map(({ href, icon, label }) => (
                     <Link key={href} href={href}>
                         <li
-                            className={`w-full my-1 flex gap-1 items-center rounded-md px-4 py-3 ${activeLink === href ? 'bg-blue-200 text-blue-600' : ''}`}
+                            className={`w-full my-1 flex gap-4 items-center rounded-md px-4 py-3 ${activeLink === href ? 'bg-blue-200 text-blue-600' : ''}`}
                             onClick={() => handleLinkClick(href)}
                         >
                             {icon} {label}

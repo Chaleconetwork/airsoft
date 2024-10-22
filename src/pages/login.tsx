@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { iUser } from "@/interfaces/types";
+import { useState } from "react";
+import { iAuth } from "@/interfaces/types";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
 export default function Login() {
-    const [data, setData] = useState<iUser>({})
-
+    const [data, setData] = useState<iAuth>({email: '', password: ''})
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setData({ ...data, [e.target.name]: e.target.value })
         console.log(data)
