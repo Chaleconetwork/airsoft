@@ -7,6 +7,7 @@ export const Fetch = {
     },
 
     async post(url: string, body: any) {
+        console.log(body)
         return await this.handleRequest(url, HTTPMETHOD.POST, body);
     },
 

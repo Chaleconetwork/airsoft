@@ -5,14 +5,16 @@ export const AuthContext = createContext<iAuthContext | undefined>(undefined);
 
 export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const [isClient, setIsClient] = useState(false);
-    
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [data, setData] = useState<Record<string, string>>({});
+
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (token) {
             setIsAuthenticated(true);
         }
-    }, []);
+        console.log(openModal)
+    }, [openModal]);
 
     const login = (token: string) => {
         localStorage.setItem('authToken', token);
@@ -24,8 +26,17 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
         setIsAuthenticated(false);
     };
 
+    const handleOpenModal = () => {
+        setOpenModal(!openModal)
+    }
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+        setData({...data, [e.target.name]: e.target.value})
+        console.log(data)
+    }
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, openModal, handleOpenModal, handleChange, data }}>
             {children}
         </AuthContext.Provider>
     )

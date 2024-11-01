@@ -1,4 +1,11 @@
+import { useContext, useState } from "react";
+import { GenericCreate } from "./crud/genericCreate";
+import { AuthContext, useAuth } from "@/context/authContext";
+
 export const Filter = () => {
+    
+    const { handleOpenModal } = useAuth();
+
     return (
         <div className="flex gap-10 p-4 border my-4 bg-white text-sm rounded-lg">
             <div className="flex gap-2 grow">
@@ -8,7 +15,9 @@ export const Filter = () => {
             <div className="flex gap-2">
                 <button className="px-8 border rounded-lg bg-sky-600 text-white">Importar</button>
                 <button className="px-8 border rounded-lg bg-red-600 text-white">Exportar</button>
-                <button className="px-8 border rounded-lg bg-green-600 text-white">Agregar</button>
+                <button className="px-8 border rounded-lg bg-green-600 text-white" onClick={handleOpenModal}>
+                    Agregar
+                </button>
             </div>
         </div>
     )

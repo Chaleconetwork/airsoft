@@ -1,5 +1,8 @@
+import { GenericCreate } from "@/components/crud/genericCreate";
 import { GenericRead } from "@/components/crud/genericRead";
 import { Filter } from "@/components/filter";
+import { useAuth } from "@/context/authContext";
+import { iUserBodyRequest } from "@/interfaces/bodyRequestType";
 import { iUser } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
 import { useEffect, useState } from "react";
@@ -7,8 +10,27 @@ import { useEffect, useState } from "react";
 export default function Users() {
 
     const headers = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Usuario', 'Role', 'Fecha creación', 'Creado por', 'Fecha ultima modificación', 'Ultima modificación por']
+    const labelsForm = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Usuario', 'Contraseña', 'Role']
+    const inputsForm = ['rut', 'email', 'names', 'surnames', 'phone', 'username', 'password', 'roleId']
+
     const [users, setUsers] = useState<iUser[]>([])
     const [isClient, setIsClient] = useState(false);
+    const { openModal, data } = useAuth();
+
+    const userBodyRequest: iUserBodyRequest = {
+        rut: data.rut,
+        email: data.email,
+        names: data.names,
+        surnames: data.surnames,
+        phone: data.phone,
+        username: data.phone,
+        password: data.password,
+        roleId: parseInt(data.roleId),
+        createdBy: 'Chaleco',
+        lastModificationBy: null
+    }
+
+    // console.log('Testeando UserBodyRequest: ', userBodyRequest)
 
     useEffect(() => {
         setIsClient(true)
@@ -17,6 +39,7 @@ export default function Users() {
             // console.log(response)
             setUsers(response)
         }
+        
         if (users)
             getUsers()
     }, [users])
@@ -27,7 +50,6 @@ export default function Users() {
     return (
         <div className="">
             <h1 className="text-2xl font-bold opacity-65">Usuarios del sistema</h1>
-            <Filter />
             <GenericRead
                 array={users}
                 headers={headers}
@@ -48,6 +70,16 @@ export default function Users() {
                     </>
                     // </tr>
                 )} />
+
+            {
+                openModal && <GenericCreate
+                    url='https://localhost:7274/api/Users/CreateUser'
+                    entity={userBodyRequest} 
+                    inputsForm={inputsForm} 
+                    labelsForm={labelsForm} 
+                    entityName='usuario'
+                 />
+            }
         </div>
     )
 }

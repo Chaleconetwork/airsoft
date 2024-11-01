@@ -1,14 +1,17 @@
+import { useAuth } from "@/context/authContext";
 import { GenericRead } from "../components/crud/genericRead";
 import { Filter } from "@/components/filter";
 import { iClient } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
 import { useEffect, useState } from "react";
+import { GenericCreate } from "@/components/crud/genericCreate";
 
 export default function Clients() {
 
     const headers = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Fecha creación', 'Creado por', 'Fecha ultima modificación', 'Ultima modificación por']
     const [clients, setClients] = useState<iClient[]>([])
     const [isClient, setIsClient] = useState(false);
+    const { openModal } = useAuth();
 
     useEffect(() => {
         setIsClient(true)
@@ -28,7 +31,6 @@ export default function Clients() {
     return (
         <div className="">
             <h1 className="text-2xl font-bold opacity-65">Clientes</h1>
-            <Filter />
             <GenericRead
                 array={clients}
                 headers={headers}
@@ -45,6 +47,10 @@ export default function Clients() {
                         <td className="py-2 whitespace-nowrap">{item.lastModificationBy}</td>
                     </>
                 )} />
+
+                {
+                //   openModal && GenericCreate()
+                }
         </div>
     )
 }
