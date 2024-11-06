@@ -10,3 +10,11 @@ export interface iUserBodyRequest {
     createdBy?: string;
     lastModificationBy?: string | null;
 }
+
+export interface iSaleBodyRequest {
+    unitValue: number;
+    amount: number;
+    userId: string;
+    createdBy: string;
+    lastModificationBy?: string | null;
+}

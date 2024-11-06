@@ -37,15 +37,16 @@ export const GenericCreate = <T,>({ url, entity, inputsForm, entityName, labelsF
                     &times;
                 </button>
                 {/* Título y formulario */}
-                <h2 className="text-lg font-bold mb-4">Crear nuevo {entityName}</h2>
+                <h2 className="text-lg font-bold mb-4">Crear {entityName}</h2>
                 <form onSubmit={handleCreate}>
                     {
                         inputsForm.map((item, index) => (
                             <div key={index} className='my-2'>
                                 <label className='block' htmlFor={item}>{labelsForm[index]}</label>
                                 {
-                                    item !== 'roleId' ? <input onChange={handleChange} name={item} type="text" className='p-1.5 outline-none border w-full rounded-md' placeholder='Campo obligatorio' /> :
+                                    item !== 'roleId' ? <input required onChange={handleChange} name={item} type="text" className='p-1.5 outline-none border w-full rounded-md' placeholder='Campo obligatorio' /> :
                                         <select
+                                            required
                                             name='roleId' // Usa el nombre correcto aquí
                                             onChange={handleChange} // Agrega el manejador de cambios
                                             className='p-1.5 outline-none border w-full rounded-md'

@@ -1,20 +1,14 @@
+import { USER_COLUMNS, USER_INPUTS, USER_LABELS } from "@/utils/tableFormat/tableFormats";
 import { GenericCreate } from "@/components/crud/genericCreate";
-import { GenericRead } from "@/components/crud/genericRead";
-import { Filter } from "@/components/filter";
-import { useAuth } from "@/context/authContext";
 import { iUserBodyRequest } from "@/interfaces/bodyRequestType";
+import { GenericRead } from "@/components/crud/genericRead";
+import { useAuth } from "@/context/authContext";
+import { useEffect, useState } from "react";
 import { iUser } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
-import { useEffect, useState } from "react";
 
 export default function Users() {
-
-    const headers = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Usuario', 'Role', 'Fecha creación', 'Creado por', 'Fecha ultima modificación', 'Ultima modificación por']
-    const labelsForm = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Usuario', 'Contraseña', 'Role']
-    const inputsForm = ['rut', 'email', 'names', 'surnames', 'phone', 'username', 'password', 'roleId']
-
     const [users, setUsers] = useState<iUser[]>([])
-    const [isClient, setIsClient] = useState(false);
     const { openModal, data } = useAuth();
 
     const userBodyRequest: iUserBodyRequest = {
@@ -30,31 +24,23 @@ export default function Users() {
         lastModificationBy: null
     }
 
-    // console.log('Testeando UserBodyRequest: ', userBodyRequest)
-
     useEffect(() => {
-        setIsClient(true)
         async function getUsers() {
             const response = await Fetch.get('https://localhost:7274/api/Users')
-            // console.log(response)
             setUsers(response)
         }
         
-        if (users)
-            getUsers()
+        getUsers()
     }, [users])
 
-    if (!isClient)
-        return null
 
     return (
         <div className="">
             <h1 className="text-2xl font-bold opacity-65">Usuarios del sistema</h1>
             <GenericRead
                 array={users}
-                headers={headers}
+                headers={USER_COLUMNS}
                 renderItem={(item) => (
-                    // <tr key={item.rut} className="text-center">
                     <>
                         <td className="py-2 whitespace-nowrap">{item.rut}</td>
                         <td className="py-2 whitespace-nowrap">{item.email}</td>
@@ -68,16 +54,15 @@ export default function Users() {
                         <td className="py-2 whitespace-nowrap">{item.lastModificationDate}</td>
                         <td className="py-2 whitespace-nowrap">{item.lastModificationBy}</td>
                     </>
-                    // </tr>
                 )} />
 
             {
                 openModal && <GenericCreate
                     url='https://localhost:7274/api/Users/CreateUser'
                     entity={userBodyRequest} 
-                    inputsForm={inputsForm} 
-                    labelsForm={labelsForm} 
-                    entityName='usuario'
+                    inputsForm={USER_INPUTS} 
+                    labelsForm={USER_LABELS} 
+                    entityName='nuevo usuario'
                  />
             }
         </div>

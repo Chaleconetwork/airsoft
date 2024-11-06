@@ -1,39 +1,30 @@
-import { useAuth } from "@/context/authContext";
-import { GenericRead } from "../components/crud/genericRead";
-import { Filter } from "@/components/filter";
-import { iClient } from "@/interfaces/types";
-import { Fetch } from "@/utils/api/fetch";
-import { useEffect, useState } from "react";
+import { CLIENT_COLUMNS, CLIENT_INPUTS, CLIENT_LABELS } from "@/utils/tableFormat/tableFormats";
 import { GenericCreate } from "@/components/crud/genericCreate";
+import { GenericRead } from "../components/crud/genericRead";
+import { useAuth } from "@/context/authContext";
+import { iClient } from "@/interfaces/types";
+import { useEffect, useState } from "react";
+import { Fetch } from "@/utils/api/fetch";
 
 export default function Clients() {
-
-    const headers = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Fecha creación', 'Creado por', 'Fecha ultima modificación', 'Ultima modificación por']
     const [clients, setClients] = useState<iClient[]>([])
-    const [isClient, setIsClient] = useState(false);
     const { openModal } = useAuth();
 
     useEffect(() => {
-        setIsClient(true)
         async function getClients() {
             const response = await Fetch.get('https://localhost:7274/api/Clients')
-            // console.log(response)
             setClients(response)
         }
 
-        if (clients)
-            getClients()
+        getClients()
     }, [clients])
-
-    if (!isClient)
-        return null
 
     return (
         <div className="">
             <h1 className="text-2xl font-bold opacity-65">Clientes</h1>
             <GenericRead
                 array={clients}
-                headers={headers}
+                headers={CLIENT_COLUMNS}
                 renderItem={(item) => (
                     <>
                         <td className="py-2 whitespace-nowrap">{item.rut}</td>
@@ -48,9 +39,15 @@ export default function Clients() {
                     </>
                 )} />
 
-                {
-                //   openModal && GenericCreate()
-                }
+            {
+                openModal && <GenericCreate
+                    url='https://localhost:7274/api/Clients/CreateClient'
+                    entity={0}
+                    inputsForm={CLIENT_INPUTS}
+                    labelsForm={CLIENT_LABELS}
+                    entityName='nuevo cliente'
+                />
+            }
         </div>
     )
 }

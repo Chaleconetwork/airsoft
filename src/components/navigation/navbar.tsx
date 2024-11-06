@@ -1,11 +1,10 @@
+import logo from "../../../public/logoairsoft.png"
 import Image from "next/image";
 import Link from "next/link"
-import { FaHelmetUn } from "react-icons/fa6";
-import logo from "../../public/logoairsoft.png"
 
 export const Navbar = () => {
     return (
-        <nav className="flex items-center justify-center gap-16 font-semibold text-sm">
+        <nav className="flex items-center justify-center gap-16 font-semibold text-sm bg-white">
             <ul className="">
                 <Link href='/dashboard'>
                     <li className="flex items-center">

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link"
-import { FaHelmetUn } from "react-icons/fa6";
 
 export const UserNavbar = () => {
     return (
@@ -21,10 +20,11 @@ export const UserNavbar = () => {
                 </Link>
             </ul>
             <ul className="flex">
+                <Link href='/'><li className="p-5 opacity-75">Notificaciones</li></Link>
                 <Link href='/'><li className="p-5 opacity-75">Reportes</li></Link>
-                <Link href='/'><li className="p-5 opacity-75">8/24/2024</li></Link>
+                <Link href='/'><li className="p-5 opacity-75">8-24-2024</li></Link>
                 <Link href='/'><li className="p-5 opacity-75">Chaleco | Administrador</li></Link>
-                <Link href='/'><li className="p-5"><span className="bg-blue-500 opacity-100 text-white rounded-2xl px-4 py-2">Cerrar sesión</span></li></Link>
+                <Link href='/'><li className="p-5"><span className="bg-blue-600 opacity-100 text-white rounded-2xl px-4 py-2">Cerrar sesión</span></li></Link>
             </ul>
         </nav>
     )

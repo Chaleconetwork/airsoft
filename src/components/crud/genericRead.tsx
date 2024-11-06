@@ -10,7 +10,7 @@ interface Props<T> {
 export const GenericRead = <T,>({ array, renderItem, headers }: Props<T>) => {
     const [message, setMessage] = useState<string>('')
     useEffect(() => {
-        setMessage('¡No se ha podido comunicar con la API!')
+        setMessage('No es posible conectar con el servidor. Por favor intenta más tarde 😅.')
     }, [])
 
     return (

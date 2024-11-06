@@ -21,18 +21,21 @@ export const Sidebar: React.FC = () => {
     };
 
     return (
-        <nav className="font-semibold bg-white border">
-            <ul className="w-[250px] p-4 text-sm">
+        <nav className="bg-white border">
+            <ul className="w-[250px] p-4">
+                <li className="my-4 font-semibold text-lg">Software de Gestión</li>
+                <li className="border"></li>
                 {links.map(({ href, icon, label }) => (
                     <Link key={href} href={href}>
                         <li
-                            className={`w-full my-1 flex gap-4 items-center rounded-md px-4 py-3 ${activeLink === href ? 'bg-blue-200 text-blue-600' : ''}`}
+                            className={`w-full font-semibold my-2 flex text-sm gap-4 items-center rounded-md px-4 py-3 ${activeLink === href ? 'bg-blue-600 text-white' : ''}`}
                             onClick={() => handleLinkClick(href)}
                         >
                             {icon} {label}
                         </li>
                     </Link>
                 ))}
+                <li className="border"></li>
             </ul>
         </nav>
     );

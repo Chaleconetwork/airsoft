@@ -1,11 +1,11 @@
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/navigation/navbar";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import '@fontsource-variable/onest';
-import { Sidebar } from "@/components/sidebar";
+import { Sidebar } from "@/components/navigation/sidebar";
 import { AuthProvider, useAuth } from "@/context/authContext";
 import { useRouter } from "next/router";
-import { UserNavbar } from "@/components/userNavbar";
+import { UserNavbar } from "@/components/navigation/userNavbar";
 
 export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter()
