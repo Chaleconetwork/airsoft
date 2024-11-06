@@ -1,9 +1,9 @@
 import { FaUser, FaDollarSign, FaUserTie, FaPlay } from "react-icons/fa";
-import { MdOutlinePayment } from "react-icons/md";
+import { MdOutlinePayment, MdEmojiEvents } from "react-icons/md";
 import { PiUsersFourFill } from "react-icons/pi";
+import { TbSoccerField } from "react-icons/tb";
 import { FaDisplay } from "react-icons/fa6";
 import { RiTeamFill } from "react-icons/ri";
-import { GiField } from "react-icons/gi";
 
 export {
     FaUser,
@@ -12,7 +12,8 @@ export {
     FaUserTie,
     FaPlay,
     PiUsersFourFill,
-    GiField,
+    TbSoccerField,
     MdOutlinePayment,
     RiTeamFill,
+    MdEmojiEvents
 };

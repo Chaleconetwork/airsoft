@@ -1,4 +1,4 @@
-import { FaUser, FaDollarSign, FaDisplay, FaUserTie, FaPlay, PiUsersFourFill, GiField, MdOutlinePayment, RiTeamFill } from "@/utils/icons/sidebarIcons";
+import { FaUser, FaDollarSign, FaDisplay, FaUserTie, FaPlay, PiUsersFourFill, TbSoccerField, MdEmojiEvents, RiTeamFill } from "@/utils/icons/sidebarIcons";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -6,10 +6,11 @@ const links = [
     { href: '/dashboard', icon: <FaDisplay />, label: 'Panel' },
     { href: '/clients', icon: <FaUserTie />, label: 'Clientes' },
     { href: '/sales', icon: <FaDollarSign />, label: 'Ventas' },
+    { href: '/events', icon: <MdEmojiEvents />, label: 'Eventos' },
     { href: '/players', icon: <PiUsersFourFill />, label: 'Jugadores' },
     { href: '/games', icon: <FaPlay />, label: 'Partidas' },
     { href: '/teams', icon: <RiTeamFill />, label: 'Equipos' },
-    { href: '/fields', icon: <GiField />, label: 'Canchas' },
+    { href: '/fields', icon: <TbSoccerField />, label: 'Canchas' },
     { href: '/users', icon: <FaUser />, label: 'Usuarios' }
 ];
 
