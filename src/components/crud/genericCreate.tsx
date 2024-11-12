@@ -4,20 +4,20 @@ import { useEffect, useState } from 'react';
 
 interface Props<T> {
     url: string;
-    entity: T;
+    bodyRequest: T;
     inputsForm: string[];
     labelsForm: string[];
     entityName: string;
 }
 
-export const GenericCreate = <T,>({ url, entity, inputsForm, entityName, labelsForm }: Props<T>) => {
-    const { handleOpenModal, handleChange } = useAuth();
+export const GenericCreate = <T,>({ url, bodyRequest, inputsForm, entityName, labelsForm }: Props<T>) => {
+    const { handleOpenModalCreate, handleChange } = useAuth();
 
     async function handleCreate(e: React.FormEvent) {
         e.preventDefault();
-        const request = await Fetch.post(url, entity);
-        console.log(request);
-        handleOpenModal()
+        const request = await Fetch.post(url, bodyRequest);
+        handleOpenModalCreate()
+        console.log('Create body request: ', bodyRequest)
         return request;
     }
 
@@ -32,7 +32,7 @@ export const GenericCreate = <T,>({ url, entity, inputsForm, entityName, labelsF
                 {/* Botón para cerrar */}
                 <button
                     className="absolute top-2 right-2 hover:text-gray-900 border w-7 h-auto text-lg rounded-full"
-                    onClick={handleOpenModal}
+                    onClick={handleOpenModalCreate}
                 >
                     &times;
                 </button>

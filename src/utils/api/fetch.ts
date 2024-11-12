@@ -11,6 +11,11 @@ export const Fetch = {
         return await this.handleRequest(url, HTTPMETHOD.POST, body);
     },
 
+    async put(url: string, body: any) {
+        console.log(body)
+        return await this.handleRequest(url, HTTPMETHOD.PUT, body);
+    },
+
     async download(url: string, body: any, filename: string) {
         return await this.handleRequest(url, HTTPMETHOD.POST, body, filename);
     },

@@ -5,16 +5,18 @@ export const AuthContext = createContext<iAuthContext | undefined>(undefined);
 
 export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
+    const [openModalUpdate, setOpenModalUpdate] = useState<boolean>(false);
     const [data, setData] = useState<Record<string, string>>({});
+    const [filter, setFilter] = useState<Record<string, string>>({});
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (token) {
             setIsAuthenticated(true);
         }
-        console.log(openModal)
-    }, [openModal]);
+        console.log('a', data)
+    }, [openModalCreate, openModalUpdate]);
 
     const login = (token: string) => {
         localStorage.setItem('authToken', token);
@@ -26,17 +28,31 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
         setIsAuthenticated(false);
     };
 
-    const handleOpenModal = () => {
-        setOpenModal(!openModal)
+    const handleOpenModalCreate = () => {
+        setOpenModalCreate(!openModalCreate)
+    }
+    
+    const handleOpenModalUpdate = () => {
+        setOpenModalUpdate(!openModalUpdate)
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        setData({...data, [e.target.name]: e.target.value})
+        setData({ ...data, [e.target.name]: e.target.value })
         console.log(data)
     }
 
+    function handleChangeFilter(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+        setFilter({ ...filter, [e.target.name]: e.target.value })
+        console.log(filter)
+    }
+
+    // function handleClickFilter(e: React.MouseEvent<HTMLElement>) {
+    //     e.preventDefault()
+    //     // setFilter((prev) => ({ ..);
+    // }
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, openModal, handleOpenModal, handleChange, data }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, openModalCreate, openModalUpdate, handleOpenModalCreate, handleOpenModalUpdate, handleChange, data, handleChangeFilter, filter }}>
             {children}
         </AuthContext.Provider>
     )

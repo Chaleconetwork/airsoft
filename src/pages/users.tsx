@@ -9,7 +9,7 @@ import { Fetch } from "@/utils/api/fetch";
 
 export default function Users() {
     const [users, setUsers] = useState<iUser[]>([])
-    const { openModal, data } = useAuth();
+    const { openModalCreate, data } = useAuth();
 
     const userBodyRequest: iUserBodyRequest = {
         rut: data.rut,
@@ -32,7 +32,6 @@ export default function Users() {
         
         getUsers()
     }, [users])
-
 
     return (
         <div className="">
@@ -57,9 +56,9 @@ export default function Users() {
                 )} />
 
             {
-                openModal && <GenericCreate
+                openModalCreate && <GenericCreate
                     url='https://localhost:7274/api/Users/CreateUser'
-                    entity={userBodyRequest} 
+                    bodyRequest={userBodyRequest} 
                     inputsForm={USER_INPUTS} 
                     labelsForm={USER_LABELS} 
                     entityName='nuevo usuario'

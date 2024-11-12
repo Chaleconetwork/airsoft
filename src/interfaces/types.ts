@@ -21,6 +21,19 @@ export interface iUser {
     lastModificationBy: string;
 }
 
+export interface iPlayer {
+    rut: string;
+    email?: string;
+    names?: string;
+    surnames?: string;
+    phone?: string;
+    banned?: boolean;
+    creationDate?: string;
+    createdBy?: string;
+    lastModificationDate?: string;
+    lastModificationBy?: string;
+}
+
 export interface iClient {
     rut: string;
     email?: string;
@@ -39,6 +52,25 @@ export interface iSale {
     amount: number;
     totalValue: number;
     username: string;
+    rutCliente: string;
+    creationDate?: string;
+    createdBy?: string;
+    lastModificationDate?: string;
+    lastModificationBy: string;
+}
+
+export interface iTeam {
+    id: number;
+    teamName: string;
+    creationDate?: string;
+    createdBy?: string;
+    lastModificationDate?: string;
+    lastModificationBy: string;
+}
+
+export interface iField {
+    id: number;
+    fieldName: string;
     creationDate?: string;
     createdBy?: string;
     lastModificationDate?: string;

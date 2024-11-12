@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Filter } from "../filter";
+import { Pagination } from "../pagination";
 
 interface Props<T> {
     array: T[]
@@ -14,7 +15,7 @@ export const GenericRead = <T,>({ array, renderItem, headers }: Props<T>) => {
     }, [])
 
     return (
-        <>
+        <div>
             <Filter />
             <table className="min-w-full my-4">
                 <thead className="opacity-90 bg-gray-200 text-xs font-semibold">
@@ -38,6 +39,9 @@ export const GenericRead = <T,>({ array, renderItem, headers }: Props<T>) => {
                     )}
                 </tbody>
             </table>
-        </>
+            <div>
+                <Pagination />
+            </div>
+        </div>
     );
 };
