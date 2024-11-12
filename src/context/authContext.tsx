@@ -15,7 +15,7 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
         if (token) {
             setIsAuthenticated(true);
         }
-        console.log('a', data)
+        
     }, [openModalCreate, openModalUpdate]);
 
     const login = (token: string) => {

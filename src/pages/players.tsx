@@ -1,12 +1,12 @@
-import { PLAYER_COLUMNS, PLAYER_INPUTS, PLAYER_LABELS, SALE_COLUMNS, SALE_INPUTS, SALE_LABELS } from "@/utils/tableFormat/tableFormats";
+import { PLAYER_COLUMNS, PLAYER_INPUTS, PLAYER_LABELS } from "@/utils/tableFormat/tableFormats";
 import { iPlayerBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericCreate } from "@/components/crud/genericCreate";
+import { GenericUpdate } from "@/components/crud/genericUpdate";
 import { GenericRead } from "@/components/crud/genericRead";
 import { useAuth } from "@/context/authContext";
 import { iPlayer } from "@/interfaces/types";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
-import { GenericUpdate } from "@/components/crud/genericUpdate";
 
 export default function Players() {
     const [filteredPlayers, setFilteredPlayers] = useState<iPlayer[]>([]);
