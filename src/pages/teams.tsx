@@ -1,14 +1,12 @@
+import { CREATE_TEAM_INPUTS, CREATE_TEAM_LABELS } from "@/utils/tableFormat/createInputFormats";
+import { TEAM_COLUMNS } from "@/utils/tableFormat/columnsFormats";
 import { iTeamBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericCreate } from "@/components/crud/genericCreate";
-import { GenericUpdate } from "@/components/crud/genericUpdate";
 import { GenericRead } from "../components/crud/genericRead";
 import { useAuth } from "@/context/authContext";
 import { iTeam } from "@/interfaces/types";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
-import { TEAM_COLUMNS } from "@/utils/tableFormat/columnsFormats";
-import { CREATE_TEAM_INPUTS, CREATE_TEAM_LABELS } from "@/utils/tableFormat/createInputFormats";
-import { UPDATE_TEAM_INPUTS, UPDATE_TEAM_LABELS } from "@/utils/tableFormat/updateInputFormats";
 
 export default function Teams() {
     const [teams, setTeams] = useState<iTeam[]>([])
@@ -73,15 +71,6 @@ export default function Teams() {
                     inputsForm={CREATE_TEAM_INPUTS}
                     labelsForm={CREATE_TEAM_LABELS}
                     entityName='nuevo equipo'
-                />
-            }
-            {
-                openModalUpdate && <GenericUpdate
-                    url='https://localhost:7274/api/Teams/UpdateTeam'
-                    bodyRequest={teamBodyRequest}
-                    inputsForm={UPDATE_TEAM_INPUTS}
-                    labelsForm={UPDATE_TEAM_LABELS}
-                    entityName='equipo'
                 />
             }
         </div>
