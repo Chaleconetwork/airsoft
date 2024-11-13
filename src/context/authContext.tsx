@@ -15,7 +15,7 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
         if (token) {
             setIsAuthenticated(true);
         }
-        
+
     }, [openModalCreate, openModalUpdate]);
 
     const login = (token: string) => {
@@ -31,28 +31,39 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
     const handleOpenModalCreate = () => {
         setOpenModalCreate(!openModalCreate)
     }
-    
+
     const handleOpenModalUpdate = () => {
         setOpenModalUpdate(!openModalUpdate)
     }
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        setData({ ...data, [e.target.name]: e.target.value })
-        console.log(data)
-    }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setData({
+            ...data,
+            [name]: value
+        });
+    };
 
     function handleChangeFilter(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setFilter({ ...filter, [e.target.name]: e.target.value })
         console.log(filter)
     }
 
-    // function handleClickFilter(e: React.MouseEvent<HTMLElement>) {
-    //     e.preventDefault()
-    //     // setFilter((prev) => ({ ..);
-    // }
-
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, openModalCreate, openModalUpdate, handleOpenModalCreate, handleOpenModalUpdate, handleChange, data, handleChangeFilter, filter }}>
+        <AuthContext.Provider value={
+            {
+                isAuthenticated,
+                login,
+                logout,
+                openModalCreate,
+                openModalUpdate,
+                handleOpenModalCreate,
+                handleOpenModalUpdate,
+                handleChange,
+                data,
+                handleChangeFilter,
+                filter
+            }}>
             {children}
         </AuthContext.Provider>
     )

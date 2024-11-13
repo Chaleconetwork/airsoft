@@ -5,25 +5,22 @@ import { useEffect, useState } from "react";
 interface Props<T> {
     url: string;
     bodyRequest: T;
-    inputsForm: string[];
-    labelsForm: string[];
     entityName: string;
+    children: React.ReactNode;
 }
 
-export const GenericUpdate = <T,>({ url, bodyRequest, inputsForm, entityName, labelsForm }: Props<T>) => {
-    const { handleOpenModalUpdate, handleChange } = useAuth();
-    
+export const GenericUpdate = <T extends object>({ url, bodyRequest, entityName, children }: Props<T>) => {
+    const { handleOpenModalUpdate, data } = useAuth();
     async function handleUpdate(e: React.FormEvent) {
         e.preventDefault();
         const request = await Fetch.put(url, bodyRequest);
         handleOpenModalUpdate()
-        console.log('Update body request: ', bodyRequest)
         return request;
     }
 
     useEffect(() => {
-        
-    }, []);
+        console.log(bodyRequest)
+    }, [])
 
     return (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -38,37 +35,7 @@ export const GenericUpdate = <T,>({ url, bodyRequest, inputsForm, entityName, la
                 {/* Título y formulario */}
                 <h2 className="text-lg font-bold mb-4">Modificar {entityName}</h2>
                 <form onSubmit={handleUpdate}>
-                    {
-                        inputsForm.map((item, index) => (
-                            <div key={index} className='my-2'>
-                                <label className='block' htmlFor={item}>{labelsForm[index]}</label>
-                                {
-                                    item !== 'roleId' 
-                                        ? 
-                                        <input 
-                                            required 
-                                            onChange={handleChange} 
-                                            name={item} 
-                                            type="text" 
-                                            className='p-1.5 outline-none border w-full rounded-md'
-                                            placeholder='Campo obligatorio'
-                                        />     
-                                        :
-                                        <select
-                                            required
-                                            name='roleId' // Usa el nombre correcto aquí
-                                            onChange={handleChange} // Agrega el manejador de cambios
-                                            className='p-1.5 outline-none border w-full rounded-md'
-                                        >
-                                            <option value={1}>Administrador</option>
-                                            <option value={2}>Moderador</option>
-                                            <option value={3}>Programador</option>
-                                            <option defaultValue={1} selected>Asignar role</option>
-                                        </select>
-                                }
-                            </div>
-                        ))
-                    }
+                    {children}
                     <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
                         Guardar
                     </button>

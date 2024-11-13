@@ -7,12 +7,13 @@ export interface iUserBodyRequest {
     username?: string;
     password?: string;
     roleId?: number;
+    status?: boolean;
     createdBy?: string;
     lastModificationBy?: string | null;
 }
 
 export interface iClientBodyRequest {
-    rut: string;
+    rut?: string | null;
     email?: string;
     names?: string;
     surnames?: string;

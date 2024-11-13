@@ -15,6 +15,7 @@ export interface iUser {
     phone?: string;
     username?: string;
     roleName?: string;
+    status?: boolean;
     creationDate?: string;
     createdBy?: string;
     lastModificationDate?: string;

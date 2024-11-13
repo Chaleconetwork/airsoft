@@ -1,7 +1,5 @@
 // HEADERS PARA LAS TABLAS
-export const USER_COLUMNS = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Usuario', 'Role', 'Fecha creación', 'Creado por', 'Fecha ultima modificación', 'Ultima modificación por']
-export const CLIENT_COLUMNS = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Fecha creación', 'Creado por', 'Fecha ultima modificación', 'Ultima modificación por']
-export const PLAYER_COLUMNS = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Fecha creación', 'Creado por', 'Baneado', 'Fecha ultima modificación', 'Ultima modificación por']
+
 
 // LABELS PARA LOS INPUTS
 export const USER_INPUTS = ['rut', 'email', 'names', 'surnames', 'phone', 'username', 'password', 'roleId']
