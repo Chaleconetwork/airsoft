@@ -39,9 +39,10 @@ export default function Clients() {
     useEffect(() => {
         async function getClients() {
             try {
+                console.log('antes: ', process.env.REACT_APP_API_URL);
                 const apiUrl = `${process.env.REACT_APP_API_URL!}/Clients`;
                 const response = await Fetch.get(apiUrl)
-
+                console.log('despues: ', process.env.REACT_APP_API_URL);
                 setClients(response)
                 setFilteredClients(response); //
             } catch (e) {
