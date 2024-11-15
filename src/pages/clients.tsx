@@ -109,7 +109,7 @@ export default function Clients() {
             />
             {
                 openModalCreate && <GenericCreate
-                    url='https://localhost:7274/api/Clients/CreateClient'
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Clients/CreateClient`}
                     bodyRequest={clientBodyRequest}
                     entityName='nuevo cliente'
                 >
@@ -159,7 +159,7 @@ export default function Clients() {
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Clients/UpdateClient/${formValues.rut}`}
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Clients/UpdateClient/${formValues.rut}`}
                     bodyRequest={clientBodyRequest}
                     entityName="cliente"
                     id={formValues.rut}

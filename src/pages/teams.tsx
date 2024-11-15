@@ -32,7 +32,7 @@ export default function Teams() {
 
     useEffect(() => {
         async function getTeams() {
-            const response = await Fetch.get('https://localhost:7274/api/Teams')
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Teams`)
             setTeams(response)
             setFilteredTeams(response); //
         }
@@ -97,7 +97,7 @@ export default function Teams() {
 
             {
                 openModalCreate && <GenericCreate
-                    url='https://localhost:7274/api/Teams/CreateTeam'
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Teams/CreateTeam`}
                     bodyRequest={teamBodyRequest}
                     entityName='nuevo equipo'
                 >
@@ -106,7 +106,7 @@ export default function Teams() {
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Teams/UpdateTeam/${formValues.id}`}
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Teams/UpdateTeam/${formValues.id}`}
                     bodyRequest={teamBodyRequest}
                     entityName="equipo"
                     id={formValues.id}

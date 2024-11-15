@@ -36,7 +36,7 @@ export default function Bills() {
     useEffect(() => {
         async function getBills() {
             try {
-                const response = await Fetch.get('https://localhost:7274/api/Bills')
+                const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Bills`)
                 setBills(response)
             } catch (e) {
                 console.error(e)
@@ -114,7 +114,7 @@ export default function Bills() {
 
             {
                 openModalCreate && <GenericCreate
-                    url='https://localhost:7274/api/Bills/CreateBill'
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Bills/CreateBill`}
                     bodyRequest={billBodyRequest}
                     entityName='nuevo gasto'
                 >
@@ -126,7 +126,7 @@ export default function Bills() {
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Bills/UpdateBill/${formValues.id}`}
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Bills/UpdateBill/${formValues.id}`}
                     bodyRequest={billBodyRequest}
                     entityName="gasto"
                     id={formValues.id}

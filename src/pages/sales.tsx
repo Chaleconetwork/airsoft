@@ -41,9 +41,9 @@ export default function Sales() {
     useEffect(() => {
         async function getSales() {
             try {
-                const getUserId = await Fetch.get(`https://localhost:7274/api/Users/GetUserByUsername/${'Israel'}`)
+                const getUserId = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users/GetUserByUsername/${'Israel'}`)
                 setUserRut(getUserId.rut)
-                const response = await Fetch.get('https://localhost:7274/api/Sales')
+                const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Sales`)
                 setSales(response)
             } catch (e) {
                 console.error(e)
@@ -120,7 +120,7 @@ export default function Sales() {
 
             {
                 openModalCreate && <GenericCreate
-                    url='https://localhost:7274/api/Sales/CreateSale'
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Sales/CreateSale`}
                     bodyRequest={saleBodyRequest}
                     entityName='nueva venta'
                 >
@@ -132,7 +132,7 @@ export default function Sales() {
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Sales/UpdateSale/${formValues.id}`}
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Sales/UpdateSale/${formValues.id}`}
                     bodyRequest={saleBodyRequest}
                     entityName="venta"
                     id={formValues.id}

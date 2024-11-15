@@ -39,7 +39,7 @@ export default function Players() {
     useEffect(() => {
         async function getPlayers() {
             try {
-                const response = await Fetch.get('https://localhost:7274/api/Players')
+                const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Players`)
                 setPlayers(response)
             } catch (e) {
                 console.error(e)
@@ -116,7 +116,7 @@ export default function Players() {
 
             {
                 openModalCreate && <GenericCreate
-                    url='https://localhost:7274/api/Players/CreatePlayer'
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Players/CreatePlayer`}
                     bodyRequest={playerBodyRequest}
                     entityName='nuevo jugador'
                 >
@@ -139,7 +139,7 @@ export default function Players() {
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Players/UpdatePlayer/${formValues.rut}`}
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Players/UpdatePlayer/${formValues.rut}`}
                     bodyRequest={playerBodyRequest}
                     entityName="jugador"
                     id={formValues.rut}

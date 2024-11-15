@@ -34,7 +34,7 @@ export default function Fields() {
     useEffect(() => {
         async function getSales() {
             try {
-                const response = await Fetch.get('https://localhost:7274/api/Fields')
+                const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Fields`)
                 setFields(response)
             } catch (e) {
                 console.error(e)
@@ -103,7 +103,7 @@ export default function Fields() {
 
             {
                 openModalCreate && <GenericCreate
-                    url='https://localhost:7274/api/Fields/CreateField'
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Fields/CreateField`}
                     bodyRequest={fieldBodyRequest}
                     entityName='nueva cancha'
                 >
@@ -112,7 +112,7 @@ export default function Fields() {
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Fields/UpdateField/${formValues.id}`}
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Fields/UpdateField/${formValues.id}`}
                     bodyRequest={fieldBodyRequest}
                     entityName="cancha"
                     id={formValues.id}

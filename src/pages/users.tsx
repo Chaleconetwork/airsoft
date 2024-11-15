@@ -51,7 +51,7 @@ export default function Users() {
 
     useEffect(() => {
         async function getUsers() {
-            const response = await Fetch.get('https://localhost:7274/api/Users')
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users`)
             setUsers(response)
         }
 
@@ -128,7 +128,7 @@ export default function Users() {
 
             {
                 openModalCreate && <GenericCreate
-                    url='https://localhost:7274/api/Users/CreateUser'
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Users/CreateUser`}
                     bodyRequest={userBodyRequest}
                     entityName='nuevo usuario'
                 >
@@ -167,7 +167,7 @@ export default function Users() {
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Users/UpdateUser/${formValues.rut}`}
+                    url={`${process.env.NEXT_PUBLIC_API_URL}/Users/UpdateUser/${formValues.rut}`}
                     bodyRequest={userBodyRequest}
                     entityName="usuario"
                     id={formValues.rut}
