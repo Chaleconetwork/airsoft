@@ -1,4 +1,3 @@
-import { CLIENT_INPUTS, CLIENT_LABELS } from "@/utils/tableFormat/tableFormats";
 import { iClientBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericCreate } from "@/components/crud/genericCreate";
 import { GenericUpdate } from "@/components/crud/genericUpdate";
@@ -10,7 +9,7 @@ import { Fetch } from "@/utils/api/fetch";
 import { CLIENT_COLUMNS } from "@/utils/tableFormat/columnsFormats";
 
 export default function Clients() {
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, data, filter } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
     const [filteredClients, setFilteredClients] = useState<iClient[]>([]);
     const [clients, setClients] = useState<iClient[]>([])
 
@@ -34,14 +33,21 @@ export default function Clients() {
     }
 
     if (openModalCreate) {
-        clientBodyRequest.rut = data.rut
+        clientBodyRequest.rut = formValues.rut
     }
 
     useEffect(() => {
         async function getClients() {
-            const response = await Fetch.get('https://localhost:7274/api/Clients')
-            setClients(response)
-            setFilteredClients(response); //
+            try {
+                const apiUrl = `${process.env.REACT_APP_API_URL!}/Clients`;
+                const response = await Fetch.get(apiUrl)
+
+                setClients(response)
+                setFilteredClients(response); //
+            } catch (e) {
+                console.error('Error en la solicitud')
+            }
+            
         }
 
         getClients()
@@ -78,16 +84,16 @@ export default function Clients() {
                 headers={CLIENT_COLUMNS}
                 renderItem={(i) => (
                     <>
-                        <td className="py-2 whitespace-nowrap">{i.rut}</td>
-                        <td className="py-2 whitespace-nowrap">{i.email}</td>
-                        <td className="py-2 whitespace-nowrap">{i.names}</td>
-                        <td className="py-2 whitespace-nowrap">{i.surnames}</td>
-                        <td className="py-2 whitespace-nowrap">{i.phone}</td>
-                        <td className="py-2 whitespace-nowrap">{i.creationDate}</td>
-                        <td className="py-2 whitespace-nowrap">{i.createdBy}</td>
-                        <td className="py-2 whitespace-nowrap">{i.lastModificationDate}</td>
-                        <td className="py-2 whitespace-nowrap">{i.lastModificationBy}</td>
-                        <td className="py-2 whitespace-nowrap">
+                        <td className="py-4 whitespace-nowrap">{i.rut}</td>
+                        <td className="py-4 whitespace-nowrap">{i.email}</td>
+                        <td className="py-4 whitespace-nowrap">{i.names}</td>
+                        <td className="py-4 whitespace-nowrap">{i.surnames}</td>
+                        <td className="py-4 whitespace-nowrap">{i.phone}</td>
+                        <td className="py-4 whitespace-nowrap">{i.creationDate}</td>
+                        <td className="py-4 whitespace-nowrap">{i.createdBy}</td>
+                        <td className="py-4 whitespace-nowrap">{i.lastModificationDate}</td>
+                        <td className="py-4 whitespace-nowrap">{i.lastModificationBy}</td>
+                        <td className="py-4 whitespace-nowrap">
                             <button
                                 onClick={() => {
                                     handleOpenModalUpdate();
@@ -109,24 +115,64 @@ export default function Clients() {
                     </>
                 )}
             />
-
             {
                 openModalCreate && <GenericCreate
                     url='https://localhost:7274/api/Clients/CreateClient'
                     bodyRequest={clientBodyRequest}
-                    inputsForm={CLIENT_INPUTS}
-                    labelsForm={CLIENT_LABELS}
                     entityName='nuevo cliente'
-                />
+                >
+                    <div className="flex flex-col gap-2 mb-4">
+                        <label className="block" htmlFor={'rut'}>Rut</label>
+                        <input
+                            onChange={handleChange}
+                            name='rut'
+                            type="text"
+                            className="p-1.5 outline-none border w-full rounded-md"
+                            placeholder="Campo obligatorio"
+                        />
+                        <label className="block" htmlFor={'email'}>Correo</label>
+                        <input
+                            onChange={handleChange}
+                            name='email'
+                            type="text"
+                            className="p-1.5 outline-none border w-full rounded-md"
+                            placeholder="Campo obligatorio"
+                        />
+                        <label className="block" htmlFor={'names'}>Nombres</label>
+                        <input
+                            onChange={handleChange}
+                            name='names'
+                            type="text"
+                            className="p-1.5 outline-none border w-full rounded-md"
+                            placeholder="Campo obligatorio"
+                        />
+                        <label className="block" htmlFor={'surnames'}>Apellidos</label>
+                        <input
+                            onChange={handleChange}
+                            name='surnames'
+                            type="text"
+                            className="p-1.5 outline-none border w-full rounded-md"
+                            placeholder="Campo obligatorio"
+                        />
+                        <label className="block" htmlFor={'phone'}>Fono</label>
+                        <input
+                            onChange={handleChange}
+                            name='phone'
+                            type="text"
+                            className="p-1.5 outline-none border w-full rounded-md"
+                            placeholder="Campo obligatorio"
+                        />
+                    </div>
+                </GenericCreate>
             }
             {
                 openModalUpdate && <GenericUpdate
                     url={`https://localhost:7274/api/Clients/UpdateClient/${formValues.rut}`}
                     bodyRequest={clientBodyRequest}
                     entityName="cliente"
+                    id={formValues.rut}
                 >
                     <div className="flex flex-col gap-2 mb-4">
-                        <h4 className="font-semibold">Modificando cliente: {formValues.rut}</h4>
                         <label className="block" htmlFor={'email'}>Correo</label>
                         <input
                             onChange={handleChange}

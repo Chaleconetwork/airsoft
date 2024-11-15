@@ -8,6 +8,7 @@ import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
 import { iUser } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
+import { GenericInput } from "@/components/genericInput";
 
 export default function Users() {
     const [users, setUsers] = useState<iUser[]>([])
@@ -22,8 +23,8 @@ export default function Users() {
         phone: '',
         username: '',
         password: '',
-        roleId: 0,
         status: '',
+        roleId: 0,
         createdBy: '',
         lastModificationBy: null
     });
@@ -35,11 +36,18 @@ export default function Users() {
         surnames: formValues.surnames,
         phone: formValues.phone,
         username: formValues.phone,
-        password: formValues.password,
+        status: formValues.status == 'true' ? true : false,
         roleId: parseInt(formValues.roleId),
-        status: formValues.status,
         createdBy: 'Chaleco',
         lastModificationBy: null
+    }
+
+    if (openModalCreate) {
+        userBodyRequest.password = formValues.password
+    }
+
+    if (openModalUpdate) {
+        userBodyRequest.rut = formValues.rut
     }
 
     useEffect(() => {
@@ -82,18 +90,40 @@ export default function Users() {
                 headers={USER_COLUMNS}
                 renderItem={(i) => (
                     <>
-                        <td className="py-2 whitespace-nowrap">{i.rut}</td>
-                        <td className="py-2 whitespace-nowrap">{i.email}</td>
-                        <td className="py-2 whitespace-nowrap">{i.names}</td>
-                        <td className="py-2 whitespace-nowrap">{i.surnames}</td>
-                        <td className="py-2 whitespace-nowrap">{i.phone}</td>
-                        <td className="py-2 whitespace-nowrap">{i.username}</td>
-                        <td className="py-2 whitespace-nowrap">{i.roleName}</td>
-                        <td className="py-2 whitespace-nowrap">{i.status}</td>
-                        <td className="py-2 whitespace-nowrap">{i.creationDate}</td>
-                        <td className="py-2 whitespace-nowrap">{i.createdBy}</td>
-                        <td className="py-2 whitespace-nowrap">{i.lastModificationDate}</td>
-                        <td className="py-2 whitespace-nowrap">{i.lastModificationBy}</td>
+                        <td className="py-4 whitespace-nowrap">{i.rut}</td>
+                        <td className="py-4 whitespace-nowrap">{i.email}</td>
+                        <td className="py-4 whitespace-nowrap">{i.names}</td>
+                        <td className="py-4 whitespace-nowrap">{i.surnames}</td>
+                        <td className="py-4 whitespace-nowrap">{i.phone}</td>
+                        <td className="py-4 whitespace-nowrap">{i.username}</td>
+                        <td className="py-4 whitespace-nowrap">{i.status ? 'Activo' : 'Desactivado'}</td>
+                        <td className="py-4 whitespace-nowrap">{i.roleName}</td>
+                        <td className="py-4 whitespace-nowrap">{i.creationDate}</td>
+                        <td className="py-4 whitespace-nowrap">{i.createdBy}</td>
+                        <td className="py-4 whitespace-nowrap">{i.lastModificationDate}</td>
+                        <td className="py-4 whitespace-nowrap">{i.lastModificationBy}</td>
+                        <td className="py-4 whitespace-nowrap">
+                            <button
+                                onClick={() => {
+                                    handleOpenModalUpdate();
+                                    setFormValues(
+                                        {
+                                            rut: i.rut,
+                                            email: i.email,
+                                            names: i.names,
+                                            surnames: i.surnames,
+                                            phone: i.phone,
+                                            username: i.username,
+                                            status: i.status,
+                                            roleId: i.roleName
+                                        }
+                                    )
+                                }}
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                            >
+                                Editar
+                            </button>
+                        </td>
                     </>
                 )} />
 
@@ -101,66 +131,78 @@ export default function Users() {
                 openModalCreate && <GenericCreate
                     url='https://localhost:7274/api/Users/CreateUser'
                     bodyRequest={userBodyRequest}
-                    inputsForm={USER_INPUTS}
-                    labelsForm={USER_LABELS}
                     entityName='nuevo usuario'
-                />
+                >
+                    <div className="flex flex-col gap-2 mb-4">
+                        <h4 className="font-semibold">Creando usuario: {formValues.rut}</h4>
+                        <GenericInput label='Rut' name='rut' type='text' handleChange={handleChange} />
+                        <GenericInput label='Correo' name='email' type='text' handleChange={handleChange} />
+                        <GenericInput label='Nombres' name='names' type='text' handleChange={handleChange} />
+                        <GenericInput label='Apellidos' name='surnames' type='text' handleChange={handleChange} />
+                        <GenericInput label='Fono' name='phone' type='text' handleChange={handleChange} />
+                        <GenericInput label='Nombre usuario' name='username' type='text' handleChange={handleChange} />
+                        <GenericInput label='Contraseña' name='password' type='password' handleChange={handleChange} />
+                        <GenericInput
+                            label="Estado"
+                            name="status"
+                            type="text"
+                            handleChange={handleChange}
+                            options={[
+                                { label: "Activo", value: "true" },
+                                { label: "Desactivado", value: "false" }
+                            ]}
+                        />
+                        <GenericInput
+                            label="Role"
+                            name="roleId"
+                            type="number"
+                            handleChange={handleChange}
+                            options={[
+                                { label: "Administrador", value: "1" },
+                                { label: "Moderador", value: "2" }
+                            ]}
+                        />
+
+                    </div>
+                </GenericCreate>
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Players/UpdatePlayer/${formValues.rut}`}
+                    url={`https://localhost:7274/api/Users/UpdateUser/${formValues.rut}`}
                     bodyRequest={userBodyRequest}
-                    entityName="cliente"
+                    entityName="usuario"
+                    id={formValues.rut}
                 >
                     <div className="flex flex-col gap-2 mb-4">
-                        <h4 className="font-semibold">Modificando cliente: {formValues.rut}</h4>
-                        <label className="block" htmlFor={'email'}>Correo</label>
-                        <input
-                            onChange={handleChange}
-                            name='email'
+                        <h4 className="font-semibold">Modificando usuario: {formValues.rut}</h4>
+                        <GenericInput label='Rut' name='rut' type='text' value={formValues.rut} handleChange={handleChange} />
+                        <GenericInput label='Correo' name='email' type='text' value={formValues.email} handleChange={handleChange} />
+                        <GenericInput label='Nombres' name='names' type='text' value={formValues.names} handleChange={handleChange} />
+                        <GenericInput label='Apellidos' name='surnames' type='text' value={formValues.surnames} handleChange={handleChange} />
+                        <GenericInput label='Fono' name='phone' type='text' value={formValues.phone} handleChange={handleChange} />
+                        <GenericInput label='Nombre usuario' name='username' type='text' value={formValues.username} handleChange={handleChange} />
+                        <GenericInput
+                            label="Estado"
+                            name="status"
                             type="text"
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            placeholder="Campo obligatorio"
-                            value={formValues.email}
-                        />
-                        <label className="block" htmlFor={'names'}>Nombres</label>
-                        <input
-                            onChange={handleChange}
-                            name='names'
-                            type="text"
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            placeholder="Campo obligatorio"
-                            value={formValues.names}
-                        />
-                        <label className="block" htmlFor={'surnames'}>Apellidos</label>
-                        <input
-                            onChange={handleChange}
-                            name='surnames'
-                            type="text"
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            placeholder="Campo obligatorio"
-                            value={formValues.surnames}
-                        />
-                        <label className="block" htmlFor={'phone'}>Fono</label>
-                        <input
-                            onChange={handleChange}
-                            name='phone'
-                            type="text"
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            placeholder="Campo obligatorio"
-                            value={formValues.phone}
-                        />
-                        <label className="block" htmlFor={'status'}>Estado</label>
-                        <select
-                            onChange={handleChange}
-                            name='status'
-                            className="p-1.5 outline-none border w-full rounded-md"
                             value={formValues.status}
-                        >
-                            <option value="">Selecciona una opción</option>
-                            <option value='true'>Si</option>
-                            <option value='false'>No</option>
-                        </select>
+                            handleChange={handleChange}
+                            options={[
+                                { label: "Activo", value: "true" },
+                                { label: "Desactivado", value: "false" }
+                            ]}
+                        />
+                        <GenericInput
+                            label="Role"
+                            name="roleId"
+                            type="number"
+                            value={formValues.roleId}
+                            handleChange={handleChange}
+                            options={[
+                                { label: "Administrador", value: 1 },
+                                { label: "Moderador", value: 2 }
+                            ]}
+                        />
                     </div>
                 </GenericUpdate>
             }

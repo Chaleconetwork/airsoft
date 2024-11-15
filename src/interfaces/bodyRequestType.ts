@@ -51,7 +51,18 @@ export interface iTeamBodyRequest {
 }
 
 export interface iFieldBodyRequest {
+    id?: number | null;
     fieldName: string;
+    createdBy: string;
+    lastModificationBy?: string | null;
+}
+
+export interface iBillBodyRequest {
+    id?: number | null;
+    product: string;
+    unitValue: number,
+    amount: number;
+    supplier: string;
     createdBy: string;
     lastModificationBy?: string | null;
 }

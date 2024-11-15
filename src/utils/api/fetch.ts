@@ -54,7 +54,7 @@ export const Fetch = {
             return jsonResponse;
 
         } catch (error: any) {
-            console.log("Se ha producido un error", error)
+            console.log("Error en la solicitud", error)
             return null;
         }
     }

@@ -8,10 +8,10 @@ export interface iAuthContext {
     openModalUpdate: boolean;
     handleOpenModalCreate: () => void;
     handleOpenModalUpdate: () => void;
-    handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
     handleChangeFilter: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-    data: Record<string, string>;
     filter: Record<string, string>;
+    handleCleanInput: () => void;
+    handleCleanFilter: (e: React.FormEvent) => void;
     // handleClickFilter: (e: React.MouseEvent<HTMLElement>) => void;
 }
 

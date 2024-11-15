@@ -1,57 +1,50 @@
-import { SALE_COLUMNS } from "@/utils/tableFormat/columnsFormats";
-import { iSaleBodyRequest } from "@/interfaces/bodyRequestType";
+import { BILL_COLUMNS } from "@/utils/tableFormat/columnsFormats";
+import { iBillBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericCreate } from "@/components/crud/genericCreate";
 import { GenericUpdate } from "@/components/crud/genericUpdate";
 import { GenericRead } from "@/components/crud/genericRead";
 import { GenericInput } from "@/components/genericInput";
+import { iBill, iSale } from "@/interfaces/types";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
-import { iSale } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
 
-export default function Sales() {
+export default function Bills() {
     const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
-    const [filteredSales, setFilteredSales] = useState<iSale[]>([]);
-    const [userRut, setUserRut] = useState<string>('');
-    const [sales, setSales] = useState<iSale[]>([])
+    const [filteredBills, setFilteredBills] = useState<iBill[]>([]);
+    const [bills, setBills] = useState<iBill[]>([])
 
     const [formValues, setFormValues] = useState<any>({
         id: '',
+        product: '',
         unitValue: '',
         amount: '',
-        userId: '',
-        rutCliente: '',
+        supplier: '',
         createdBy: '',
         lastModificationBy: null
     });
 
-    const saleBodyRequest: iSaleBodyRequest = {
+    const billBodyRequest: iBillBodyRequest = {
+        product: formValues.product,
         unitValue: parseInt(formValues.unitValue),
         amount: parseInt(formValues.amount),
-        userId: userRut,
-        rutCliente: formValues.rutCliente,
+        supplier: formValues.supplier,
         createdBy: 'Chaleco',
         lastModificationBy: null
     }
 
-    if (openModalUpdate) {
-        saleBodyRequest.id = parseInt(formValues.id)
-    }
-
     useEffect(() => {
-        async function getSales() {
+        async function getBills() {
             try {
-                const getUserId = await Fetch.get(`https://localhost:7274/api/Users/GetUserByUsername/${'Israel'}`)
-                setUserRut(getUserId.rut)
-                const response = await Fetch.get('https://localhost:7274/api/Sales')
-                setSales(response)
+                const response = await Fetch.get('https://localhost:7274/api/Bills')
+                setBills(response)
             } catch (e) {
                 console.error(e)
             }
         }
 
-        getSales()
-    }, [sales])
+        getBills()
+    }, [bills])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -63,34 +56,35 @@ export default function Sales() {
 
     useEffect(() => {
         try {
-            const filtered = sales.filter(sale =>
-                sale.id!.toString().toLowerCase().includes(filter.filter?.toLowerCase() || '') ||
-                sale.unitValue!.toString().toLowerCase().includes(filter.filter?.toLowerCase() || '') ||
-                sale.amount.toString().toLowerCase().includes(filter.filter?.toLowerCase() || '') ||
-                sale.totalValue.toString().toLowerCase().includes(filter.filter?.toLowerCase() || '')
+            const filtered = bills.filter(bill =>
+                bill.id!.toString().toLowerCase().includes(filter.filter?.toLowerCase() || '') ||
+                bill.product.toLowerCase().includes(filter.filter?.toLowerCase() || '') ||
+                bill.unitValue!.toString().toLowerCase().includes(filter.filter?.toLowerCase() || '') ||
+                bill.amount.toString().toLowerCase().includes(filter.filter?.toLowerCase() || '') ||
+                bill.totalValue.toString().toLowerCase().includes(filter.filter?.toLowerCase() || '')
             );
 
-            setFilteredSales(filtered);
+            setFilteredBills(filtered);
         } catch (e) {
             console.error(e)
         }
 
-    }, [filter, sales]);
+    }, [filter, bills]);
 
     return (
         <div>
-            <h1 className="text-2xl font-semibold opacity-65">Ventas</h1>
+            <h1 className="text-2xl font-semibold opacity-65">Gastos</h1>
             <GenericRead
-                array={filteredSales}
-                headers={SALE_COLUMNS}
+                array={filteredBills}
+                headers={BILL_COLUMNS}
                 renderItem={(i) => (
                     <>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.id}</td>
+                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.product}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">${i.unitValue}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.amount}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">${i.totalValue}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.username}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.rutCliente}</td>
+                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.supplier}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.creationDate}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.createdBy}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.lastModificationDate}</td>
@@ -102,11 +96,11 @@ export default function Sales() {
                                     setFormValues(
                                         {
                                             id: i.id,
+                                            product: i.product,
                                             unitValue: i.unitValue,
                                             amount: i.amount,
                                             totalValue: i.totalValue,
-                                            username: i.username,
-                                            rutCliente: i.rutCliente
+                                            supplier: i.supplier
                                         }
                                     )
                                 }}
@@ -120,25 +114,27 @@ export default function Sales() {
 
             {
                 openModalCreate && <GenericCreate
-                    url='https://localhost:7274/api/Sales/CreateSale'
-                    bodyRequest={saleBodyRequest}
-                    entityName='nueva venta'
+                    url='https://localhost:7274/api/Bills/CreateBill'
+                    bodyRequest={billBodyRequest}
+                    entityName='nuevo gasto'
                 >
+                    <GenericInput label='Producto' name='product' type='text' handleChange={handleChange} />
                     <GenericInput label='Valor unitario' name='unitValue' type='number' handleChange={handleChange} />
                     <GenericInput label='Cantidad' name='amount' type='number' handleChange={handleChange} />
-                    <GenericInput label='Encargado' name='username' type='text' handleChange={handleChange} />
-                    <GenericInput label='Cliente' name='rutCliente' type='text' handleChange={handleChange} />
+                    <GenericInput label='Proveedor' name='supplier' type='text' handleChange={handleChange} />
                 </GenericCreate>
             }
             {
                 openModalUpdate && <GenericUpdate
-                    url={`https://localhost:7274/api/Sales/UpdateSale/${formValues.id}`}
-                    bodyRequest={saleBodyRequest}
-                    entityName="venta"
+                    url={`https://localhost:7274/api/Bills/UpdateBill/${formValues.id}`}
+                    bodyRequest={billBodyRequest}
+                    entityName="gasto"
                     id={formValues.id}
                 >
+                    <GenericInput label='Producto' name='product' type='text' value={formValues.product} handleChange={handleChange} />
                     <GenericInput label='Valor unitario' name='unitValue' type='number' value={formValues.unitValue} handleChange={handleChange} />
                     <GenericInput label='Cantidad' name='amount' type='number' value={formValues.amount} handleChange={handleChange} />
+                    <GenericInput label='Proveedor' name='supplier' type='text' value={formValues.supplier} handleChange={handleChange} />
                 </GenericUpdate>
             }
         </div>

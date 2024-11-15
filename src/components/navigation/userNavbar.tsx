@@ -1,6 +1,8 @@
+import { IoIosNotifications } from "react-icons/io";
+import { FaHouseChimneyUser } from "react-icons/fa6";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link"
-import { useEffect, useState } from "react";
 
 export const UserNavbar = () => {
     const [time, setTime] = useState({'now': '', 'seconds': '', 'minutes': '', 'hours': '', 'day': '', 'month': '', 'year': ''})
@@ -26,7 +28,7 @@ export const UserNavbar = () => {
     }, [])
 
     return (
-        <nav className="bg-white shadow-sm flex items-center justify-between gap-16 font-semibold text-sm">
+        <nav className="bg-white shadow-md flex items-center justify-between gap-16 font-semibold text-sm">
             <ul className="">
                 <Link href='/dashboard'>
                     <li className="flex items-center">
@@ -42,12 +44,12 @@ export const UserNavbar = () => {
                     </li>
                 </Link>
             </ul>
-            <ul className="flex">
-                <Link href='/'><li className="p-5 opacity-75"><strong>Fecha de hoy:</strong> {time.day}-{time.month}-{time.year}</li></Link>
-                <Link href='/'><li className="p-5 opacity-75">Notificaciones</li></Link>
+            <ul className="flex text-gray-600">
+                <Link href='/'><li className="p-5 opacity-75">{time.day} de Noviembre</li></Link>
+                <Link href='/'><li className="p-5 opacity-75 text-xl"><IoIosNotifications /></li></Link>
                 <Link href='/'><li className="p-5 opacity-75">Reportes</li></Link>
-                <Link href='/'><li className="p-5 opacity-75">Chaleco | Administrador</li></Link>
-                <Link href='/'><li className="p-5"><span className="bg-blue-600 opacity-100 text-white rounded-2xl px-4 py-2">Cerrar sesión</span></li></Link>
+                <Link href='/'><li className="p-5 opacity-75">Administrador</li></Link>
+                <Link href='/'><li className="p-5 text-xl"><FaHouseChimneyUser /></li></Link>
             </ul>
         </nav>
     )

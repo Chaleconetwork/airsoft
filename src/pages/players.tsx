@@ -8,6 +8,7 @@ import { iPlayer } from "@/interfaces/types";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
 import { PLAYER_COLUMNS } from "@/utils/tableFormat/columnsFormats";
+import { GenericInput } from "@/components/genericInput";
 
 export default function Players() {
     const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
@@ -31,7 +32,7 @@ export default function Players() {
         names: formValues.names,
         surnames: formValues.surnames,
         phone: formValues.phone,
-        banned: formValues.banned == 'true' ? true : false,
+        banned: formValues.banned == 'true' ? false : true,
         createdBy: 'Chaleco',
         lastModificationBy: null
     }
@@ -118,67 +119,49 @@ export default function Players() {
                 openModalCreate && <GenericCreate
                     url='https://localhost:7274/api/Players/CreatePlayer'
                     bodyRequest={playerBodyRequest}
-                    inputsForm={PLAYER_INPUTS}
-                    labelsForm={PLAYER_LABELS}
                     entityName='nuevo jugador'
-                />
+                >
+                    <GenericInput label='Rut' name='rut' type='text' handleChange={handleChange} />
+                    <GenericInput label='Correo' name='email' type='text' handleChange={handleChange} />
+                    <GenericInput label='Nombres' name='names' type='text' handleChange={handleChange} />
+                    <GenericInput label='Apellidos' name='surnames' type='text' handleChange={handleChange} />
+                    <GenericInput label='Fono' name='phone' type='text' handleChange={handleChange} />
+                    <GenericInput
+                        label="Estado"
+                        name="banned"
+                        type="text"
+                        handleChange={handleChange}
+                        options={[
+                            { label: "Activo", value: "true" },
+                            { label: "Desactivado", value: "false" }
+                        ]}
+                    />
+                </GenericCreate>
             }
             {
                 openModalUpdate && <GenericUpdate
                     url={`https://localhost:7274/api/Players/UpdatePlayer/${formValues.rut}`}
                     bodyRequest={playerBodyRequest}
-                    entityName="cliente"
+                    entityName="jugador"
+                    id={formValues.rut}
                 >
                     <div className="flex flex-col gap-2 mb-4">
-                        <h4 className="font-semibold">Modificando cliente: {formValues.rut}</h4>
-                        <label className="block" htmlFor={'email'}>Correo</label>
-                        <input
-                            onChange={handleChange}
-                            name='email'
+                        <GenericInput label='Rut' name='rut' type='text' value={formValues.rut} handleChange={handleChange} />
+                        <GenericInput label='Correo' name='email' type='text' value={formValues.email} handleChange={handleChange} />
+                        <GenericInput label='Nombres' name='names' type='text' value={formValues.names} handleChange={handleChange} />
+                        <GenericInput label='Apellidos' name='surnames' type='text' value={formValues.surnames} handleChange={handleChange} />
+                        <GenericInput label='Fono' name='phone' type='text' value={formValues.phone} handleChange={handleChange} />
+                        <GenericInput
+                            label="Estado"
+                            name="banned"
                             type="text"
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            placeholder="Campo obligatorio"
-                            value={formValues.email}
+                            handleChange={handleChange}
+                            value={formValues.banned}
+                            options={[
+                                { label: "Activo", value: "true" },
+                                { label: "Desactivado", value: "false" }
+                            ]}
                         />
-                        <label className="block" htmlFor={'names'}>Nombres</label>
-                        <input
-                            onChange={handleChange}
-                            name='names'
-                            type="text"
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            placeholder="Campo obligatorio"
-                            value={formValues.names}
-                        />
-                        <label className="block" htmlFor={'surnames'}>Apellidos</label>
-                        <input
-                            onChange={handleChange}
-                            name='surnames'
-                            type="text"
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            placeholder="Campo obligatorio"
-                            value={formValues.surnames}
-                        />
-                        <label className="block" htmlFor={'phone'}>Fono</label>
-                        <input
-                            onChange={handleChange}
-                            name='phone'
-                            type="text"
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            placeholder="Campo obligatorio"
-                            value={formValues.phone}
-                        />
-                        <label className="block" htmlFor={'banned'}>Estado</label>
-                        <select
-                            onChange={handleChange}
-                            name='banned'
-                            className="p-1.5 outline-none border w-full rounded-md"
-                            value={formValues.status}
-                        >
-                            <option value="">Selecciona una opción</option>
-                            <option value='true'>Si</option>
-                            <option value='false'>No</option>
-                        </select>
-
                     </div>
                 </GenericUpdate>
             }

@@ -7,8 +7,8 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
     const [openModalUpdate, setOpenModalUpdate] = useState<boolean>(false);
-    const [data, setData] = useState<Record<string, string>>({});
     const [filter, setFilter] = useState<Record<string, string>>({});
+    const [cleanInput, setCleanInput] = useState<boolean>(false);
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
@@ -28,6 +28,10 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
         setIsAuthenticated(false);
     };
 
+    const handleCleanInput = () => {
+        setCleanInput(!cleanInput)
+    }
+
     const handleOpenModalCreate = () => {
         setOpenModalCreate(!openModalCreate)
     }
@@ -36,17 +40,12 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
         setOpenModalUpdate(!openModalUpdate)
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setData({
-            ...data,
-            [name]: value
-        });
-    };
-
     function handleChangeFilter(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setFilter({ ...filter, [e.target.name]: e.target.value })
-        console.log(filter)
+    }
+
+    function handleCleanFilter(e: React.FormEvent) {
+        setFilter({})
     }
 
     return (
@@ -59,10 +58,10 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
                 openModalUpdate,
                 handleOpenModalCreate,
                 handleOpenModalUpdate,
-                handleChange,
-                data,
                 handleChangeFilter,
-                filter
+                filter,
+                handleCleanInput,
+                handleCleanFilter
             }}>
             {children}
         </AuthContext.Provider>

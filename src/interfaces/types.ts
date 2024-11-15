@@ -77,3 +77,16 @@ export interface iField {
     lastModificationDate?: string;
     lastModificationBy: string;
 }
+
+export interface iBill {
+    id?: number;
+    product: string;
+    unitValue: number,
+    amount: number;
+    totalValue: number;
+    supplier: string;
+    creationDate?: string;
+    createdBy?: string;
+    lastModificationDate?: string;
+    lastModificationBy: string;
+}
