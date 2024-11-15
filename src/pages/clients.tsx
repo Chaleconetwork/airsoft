@@ -38,15 +38,8 @@ export default function Clients() {
 
     useEffect(() => {
         async function getClients() {
-            try {
-                const apiUrl = `${process.env.REACT_APP_API_URL!}/Clients`;
-                const response = await Fetch.get(apiUrl)
-                console.log(process.env.REACT_APP_API_URL)
-                setClients(response)
-                setFilteredClients(response); //
-            } catch (e) {
-                console.error('Error en la solicitud')
-            }
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Clients`)
+            setClients(response)
         }
 
         getClients()
@@ -62,7 +55,7 @@ export default function Clients() {
 
             setFilteredClients(filtered);
         } catch (e) {
-            console.error('AAAA')
+            console.error('')
         }
 
     }, [filter, clients]);
