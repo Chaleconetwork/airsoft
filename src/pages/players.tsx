@@ -1,14 +1,13 @@
-import { PLAYER_INPUTS, PLAYER_LABELS } from "@/utils/tableFormat/tableFormats";
+import { PLAYER_COLUMNS } from "@/utils/tableFormat/columnsFormats";
 import { iPlayerBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericCreate } from "@/components/crud/genericCreate";
 import { GenericUpdate } from "@/components/crud/genericUpdate";
 import { GenericRead } from "@/components/crud/genericRead";
+import { GenericInput } from "@/components/genericInput";
 import { useAuth } from "@/context/authContext";
 import { iPlayer } from "@/interfaces/types";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
-import { PLAYER_COLUMNS } from "@/utils/tableFormat/columnsFormats";
-import { GenericInput } from "@/components/genericInput";
 
 export default function Players() {
     const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
