@@ -1,14 +1,13 @@
-import { USER_INPUTS, USER_LABELS } from "@/utils/tableFormat/tableFormats";
 import { USER_COLUMNS } from "@/utils/tableFormat/columnsFormats";
 import { GenericCreate } from "@/components/crud/genericCreate";
 import { iUserBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericUpdate } from "@/components/crud/genericUpdate";
 import { GenericRead } from "@/components/crud/genericRead";
+import { GenericInput } from "@/components/genericInput";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
 import { iUser } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
-import { GenericInput } from "@/components/genericInput";
 
 export default function Users() {
     const [users, setUsers] = useState<iUser[]>([])
