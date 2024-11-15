@@ -1,3 +1,4 @@
+import { CLIENT_COLUMNS } from "@/utils/tableFormat/columnsFormats";
 import { iClientBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericCreate } from "@/components/crud/genericCreate";
 import { GenericUpdate } from "@/components/crud/genericUpdate";
@@ -6,7 +7,6 @@ import { useAuth } from "@/context/authContext";
 import { iClient } from "@/interfaces/types";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
-import { CLIENT_COLUMNS } from "@/utils/tableFormat/columnsFormats";
 
 export default function Clients() {
     const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
@@ -47,7 +47,6 @@ export default function Clients() {
             } catch (e) {
                 console.error('Error en la solicitud')
             }
-            
         }
 
         getClients()
