@@ -21,8 +21,9 @@ export const GenericCreate = <T,>({ url, bodyRequest, entityName, children }: Pr
     }
 
     useEffect(() => {
-        // console.log(url);
+        console.log('Url: ', url);
         // console.log(entity);
+        console.log('variable produccion: ', process.env.NEXT_PUBLIC_API_URL);
     }, []);
 
     return (
