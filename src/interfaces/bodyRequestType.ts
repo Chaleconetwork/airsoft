@@ -37,8 +37,9 @@ export interface iSaleBodyRequest {
     id?: number | null;
     unitValue: number;
     amount: number;
+    paymentMethod: string;
     userId: string;
-    rutCliente: string;
+    rutClient: string;
     createdBy: string;
     lastModificationBy?: string | null;
 }

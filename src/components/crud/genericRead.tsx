@@ -51,7 +51,7 @@ export const GenericRead = <T extends ItemWithPrimaryKey>({ array, renderItem, h
                                     array.map((item, index) => (
                                         <tr
                                             key={index}
-                                            className={`text-center text-gray-500 font-medium border hover:bg-gray-50 delay-100 duration-500
+                                            className={`text-center text-gray-500 font-medium border hover:bg-gray-100 delay-100 duration-500
                                                 ${highlightIndex === undefined
                                                     ? index === array.length - 1 ? 'bg-green-200'
                                                         : 'bg-white'

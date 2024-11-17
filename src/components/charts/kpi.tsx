@@ -5,12 +5,12 @@ interface Props {
     latest: string;
 }
 
-export const Chart = ({value, title, percentage, latest}: Props) => {
+export const Kpi = ({value, title, percentage, latest}: Props) => {
     return (
         <div className="bg-white shadow-xl rounded-md p-4 w-full">
-            <strong className="text-3xl">${value}</strong>
+            <strong className={`${value >= 0 ? 'text-green-500' : 'text-red-500'} text-3xl`}>${value}</strong>
             <div className="flex justify-between">
-                <h4 className="text-gray-400 mt-4 text-lg">{title}</h4>
+                <h4 className="text-gray-500 font-medium mt-4 text-lg">{title}</h4>
                 <h4 className="text-green-400 font-semibold mt-4 text-lg">{percentage}%</h4>
             </div>
             <div className="border"></div>

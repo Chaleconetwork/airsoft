@@ -1,5 +1,6 @@
 import { useAuth } from '@/context/authContext';
 import { Fetch } from '@/utils/api/fetch';
+import { useState } from 'react';
 
 interface Props<T> {
     url: string;
@@ -12,14 +13,15 @@ interface Props<T> {
 
 export const GenericCreate = <T extends object>({ url, bodyRequest, entityName, children, onCreateSuccess, id }: Props<T>) => {
     const { handleOpenModalCreate, handleHighlightActivate, handlePrimaryKey, handleCleanInput } = useAuth();
+    const [btnDisable, setBtnDisable] = useState<boolean>(false)
 
     async function handleCreate(e: React.FormEvent) {
         e.preventDefault();
         const request = await Fetch.post(url, bodyRequest);
+        setBtnDisable(true)
         handleOpenModalCreate()
         handleCleanInput()
 
-        // console.log('Id: ',id)
         if (onCreateSuccess) {
             onCreateSuccess();
             handleHighlightActivate()
@@ -41,7 +43,7 @@ export const GenericCreate = <T extends object>({ url, bodyRequest, entityName, 
                 <h2 className="text-lg font-bold mb-4">Crear {entityName}</h2>
                 <form onSubmit={handleCreate} className={`${entityName == 'usuario' ? 'flex gap-4' : ''}`}>
                     {children}
-                    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
+                    <button type="submit" disabled={btnDisable} className={`${btnDisable ? 'bg-gray-500': 'bg-blue-500'}  py-2 px-4 rounded mt-4 text-white`}>
                         Guardar
                     </button>
                 </form>

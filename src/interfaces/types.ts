@@ -52,8 +52,9 @@ export interface iSale {
     unitValue: number;
     amount: number;
     totalValue: number;
+    paymentMethod: string;
     username: string;
-    rutCliente: string;
+    rutClient: string;
     creationDate?: string;
     createdBy?: string;
     lastModificationDate?: string;

@@ -19,8 +19,9 @@ export default function Sales() {
         id: '',
         unitValue: '',
         amount: '',
+        paymentMethod: '',
         userId: '',
-        rutCliente: '',
+        rutClient: '',
         createdBy: '',
         lastModificationBy: null
     });
@@ -28,8 +29,9 @@ export default function Sales() {
     const saleBodyRequest: iSaleBodyRequest = {
         unitValue: parseInt(formValues.unitValue),
         amount: parseInt(formValues.amount),
+        paymentMethod: formValues.paymentMethod,
         userId: userId,
-        rutCliente: formValues.rutCliente,
+        rutClient: formValues.rutClient,
         createdBy: 'Chaleco',
         lastModificationBy: null
     }
@@ -89,8 +91,9 @@ export default function Sales() {
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">${i.unitValue}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.amount}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">${i.totalValue}</td>
+                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.paymentMethod}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.username}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.rutCliente}</td>
+                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.rutClient}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.creationDate}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.createdBy}</td>
                         <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.lastModificationDate}</td>
@@ -105,8 +108,9 @@ export default function Sales() {
                                             unitValue: i.unitValue,
                                             amount: i.amount,
                                             totalValue: i.totalValue,
+                                            paymentMethod: i.paymentMethod,
                                             username: i.username,
-                                            rutCliente: i.rutCliente
+                                            rutClient: i.rutClient
                                         }
                                     )
                                 }}
@@ -127,8 +131,9 @@ export default function Sales() {
                 >
                     <GenericInput label='Valor unitario' name='unitValue' type='number' handleChange={handleChange} />
                     <GenericInput label='Cantidad' name='amount' type='number' handleChange={handleChange} />
+                    <GenericInput label='Método pago' name='paymentMethod' type='text' handleChange={handleChange} />
                     <GenericInput label='Encargado' name='username' type='text' value='Israel' handleChange={handleChange} />
-                    <GenericInput label='Cliente' name='rutCliente' type='text' handleChange={handleChange} />
+                    <GenericInput label='Cliente' name='rutClient' type='text' handleChange={handleChange} />
                 </GenericCreate>
             }
             {
@@ -141,6 +146,7 @@ export default function Sales() {
                 >
                     <GenericInput label='Valor unitario' name='unitValue' type='number' value={formValues.unitValue} handleChange={handleChange} />
                     <GenericInput label='Cantidad' name='amount' type='number' value={formValues.amount} handleChange={handleChange} />
+                    <GenericInput label='Método pago' name='paymentMethod' type='text' value={formValues.paymentMethod} handleChange={handleChange} />
                 </GenericUpdate>
             }
         </div>

@@ -1,6 +1,6 @@
 export const TEAM_COLUMNS = ['Id', 'Equipo', 'Fecha creación', 'Creado por', 'Fecha ultima modificación', 'Ultima modificación por', 'Opciones']
 export const FIELDS_COLUMNS = ['Id', 'Cancha', 'Fecha creación', 'Creado por', 'Fecha ultima modificación', 'Ultima modificación por', 'Opciones']
-export const SALE_COLUMNS = ['Id', 'Valor unitario', 'Cantidad', 'Valor total', 'Encargado', 'Cliente', 'Fecha creación', 'Creado por', 'Ultima modificación', 'Ultima modificación por', 'Opciones']
+export const SALE_COLUMNS = ['Id', 'Valor unitario', 'Cantidad', 'Valor total', 'Método pago', 'Encargado', 'Cliente', 'Fecha creación', 'Creado por', 'Ultima modificación', 'Ultima modificación por', 'Opciones']
 export const USER_COLUMNS = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Usuario', 'Estado', 'Role', 'Fecha creación', 'Creado por', 'Ultima modificación', 'Ultima modificación por', 'Opciones']
 export const BILL_COLUMNS = ['Id', 'Producto', 'Valor unitario', 'Cantidad', 'Valor total', 'Proveedor', 'Fecha creación', 'Creado por', 'Ultima modificación', 'Ultima modificación por', 'Opciones']
 export const CLIENT_COLUMNS = ['Rut', 'Correo', 'Nombres', 'Apellidos', 'Fono', 'Fecha creación', 'Creado por', 'Ultima modificación', 'Ultima modificación por', 'Opciones']
