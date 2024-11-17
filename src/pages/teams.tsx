@@ -13,8 +13,10 @@ export default function Teams() {
     const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
     const [filteredTeams, setFilteredTeams] = useState<iTeam[]>([]);
     const [teams, setTeams] = useState<iTeam[]>([])
+    const [getId, setGetId] = useState<any>()
 
     const [formValues, setFormValues] = useState<any>({
+        id: '',
         teamName: '',
         createBy: '',
         lastModificationBy: null,
@@ -30,15 +32,16 @@ export default function Teams() {
         teamBodyRequest.id = parseInt(formValues.id)
     }
 
+    async function getTeams() {
+        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Teams`)
+
+        setTeams(response)
+        setFilteredTeams(response); //
+    }
+
     useEffect(() => {
-        async function getTeams() {
-            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Teams`)
-            setTeams(response)
-            setFilteredTeams(response); //
-        }
-        // console.log(teamBodyRequest)
         getTeams()
-    }, [teams])
+    }, [])
 
     useEffect(() => {
         try {
@@ -100,6 +103,7 @@ export default function Teams() {
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Teams/CreateTeam`}
                     bodyRequest={teamBodyRequest}
                     entityName='nuevo equipo'
+                    onCreateSuccess={getTeams}
                 >
                     <GenericInput label='Nombre del equipo' name='teamName' type='text' handleChange={handleChange} />
                 </GenericCreate>
@@ -110,6 +114,7 @@ export default function Teams() {
                     bodyRequest={teamBodyRequest}
                     entityName="equipo"
                     id={formValues.id}
+                    onCreateSuccess={getTeams}
                 >
                     <GenericInput label='Nombre del equipo' name='teamName' type='text' value={formValues.teamName} handleChange={handleChange} />
                 </GenericUpdate>

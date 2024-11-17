@@ -36,16 +36,16 @@ export default function Players() {
         lastModificationBy: null
     }
 
-    useEffect(() => {
-        async function getPlayers() {
-            try {
-                const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Players`)
-                setPlayers(response)
-            } catch (e) {
-                console.error(e)
-            }
+    async function getPlayers() {
+        try {
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Players`)
+            setPlayers(response)
+        } catch (e) {
+            console.error(e)
         }
+    }
 
+    useEffect(() => {
         getPlayers()
     }, [players])
 
@@ -119,6 +119,8 @@ export default function Players() {
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Players/CreatePlayer`}
                     bodyRequest={playerBodyRequest}
                     entityName='nuevo jugador'
+                    onCreateSuccess={getPlayers}
+                    id={formValues.rut}
                 >
                     <GenericInput label='Rut' name='rut' type='text' handleChange={handleChange} />
                     <GenericInput label='Correo' name='email' type='text' handleChange={handleChange} />
@@ -143,6 +145,7 @@ export default function Players() {
                     bodyRequest={playerBodyRequest}
                     entityName="jugador"
                     id={formValues.rut}
+                    onCreateSuccess={getPlayers}
                 >
                     <div className="flex flex-col gap-2 mb-4">
                         <GenericInput label='Rut' name='rut' type='text' value={formValues.rut} handleChange={handleChange} />
@@ -151,14 +154,14 @@ export default function Players() {
                         <GenericInput label='Apellidos' name='surnames' type='text' value={formValues.surnames} handleChange={handleChange} />
                         <GenericInput label='Fono' name='phone' type='text' value={formValues.phone} handleChange={handleChange} />
                         <GenericInput
-                            label="Estado"
+                            label="¿Banear jugador?"
                             name="banned"
                             type="text"
                             handleChange={handleChange}
-                            value={formValues.banned}
+                            // value={formValues.banned}
                             options={[
-                                { label: "Activo", value: "true" },
-                                { label: "Desactivado", value: "false" }
+                                { label: "Si", value: "false" },
+                                { label: "No", value: "true" }
                             ]}
                         />
                     </div>

@@ -1,6 +1,5 @@
 import { useAuth } from "@/context/authContext";
 import { Fetch } from "@/utils/api/fetch";
-import { useEffect, useState } from "react";
 
 interface Props<T> {
     url: string;
@@ -8,21 +7,26 @@ interface Props<T> {
     entityName: string;
     id: string | number;
     children: React.ReactNode;
+    onCreateSuccess?: () => void;
 }
 
-export const GenericUpdate = <T extends object>({ url, bodyRequest, entityName, children, id }: Props<T>) => {
-    const { handleOpenModalUpdate, handleCleanInput } = useAuth();
+export const GenericUpdate = <T extends object>({ url, bodyRequest, entityName, children, id, onCreateSuccess }: Props<T>) => {
+    const { handleOpenModalUpdate, handleCleanInput, handleHighlightActivate, handlePrimaryKey } = useAuth();
+    
     async function handleUpdate(e: React.FormEvent) {
         e.preventDefault();
         const request = await Fetch.put(url, bodyRequest);
         handleOpenModalUpdate()
         handleCleanInput()
+
+        if (onCreateSuccess) {
+            onCreateSuccess();
+            handleHighlightActivate()
+            handlePrimaryKey(id)
+        }
+
         return request;
     }
-
-    useEffect(() => {
-        console.log(bodyRequest)
-    }, [])
 
     return (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">

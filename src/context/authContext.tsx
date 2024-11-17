@@ -4,11 +4,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const AuthContext = createContext<iAuthContext | undefined>(undefined);
 
 export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
+    const [highlightActivate, setHighlightActivate] = useState<boolean | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
     const [openModalUpdate, setOpenModalUpdate] = useState<boolean>(false);
     const [filter, setFilter] = useState<Record<string, string>>({});
     const [cleanInput, setCleanInput] = useState<boolean>(false);
+    const [primaryKey, setPrimaryKey] = useState<string | number | null>(null);
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
@@ -48,6 +50,18 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
         setFilter({})
     }
 
+    function handleHighlightActivate() {
+        setHighlightActivate(!highlightActivate)
+    }
+
+    function handlePrimaryKey(pk: string | number) {
+        setPrimaryKey(pk)
+    }
+
+    function handleCleanPrimaryKey() {
+        setPrimaryKey(null)
+    }
+
     return (
         <AuthContext.Provider value={
             {
@@ -61,7 +75,12 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
                 handleChangeFilter,
                 filter,
                 handleCleanInput,
-                handleCleanFilter
+                handleCleanFilter,
+                highlightActivate,
+                handleHighlightActivate,
+                primaryKey,
+                handlePrimaryKey,
+                handleCleanPrimaryKey
             }}>
             {children}
         </AuthContext.Provider>

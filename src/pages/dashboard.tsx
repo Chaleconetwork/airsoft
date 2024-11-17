@@ -1,13 +1,28 @@
+import { Chart } from "@/components/charts/chart";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
-import Select from "@/components/select";
-import { Chart } from "@/components/charts/chart";
-import { Barchart } from "@/components/charts/barchart";
 
 export default function Dashboard() {
+    const [revenues, setRevenues] = useState<number>()
+    const [expenses, setExpenses] = useState<number>()
+    const [profit, setProfit] = useState<number>()
+
     function handleChange() {
 
     }
+
+    useEffect(() => {
+        async function getDashboard() {
+            const responseRevenue = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Dashboard/revenue`)
+            setRevenues(responseRevenue)
+            const responseExpenses = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Dashboard/expenses`)
+            setExpenses(responseExpenses)
+            const responseProfit = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Dashboard/profit`)
+            setProfit(responseProfit)
+        }
+
+        getDashboard()
+    }, [])
 
     return (
         <div className="">
@@ -19,9 +34,9 @@ export default function Dashboard() {
             </div> */}
             <main className="">
                 <section className="flex justify-between w-full gap-2 mb-4">
-                    <Chart value={7.895} title='Ganancias' percentage={12} latest="últimos 7 días" />
-                    <Chart value={25.348} title='Gastos' percentage={5} latest="últimos 7 días" />
-                    <Chart value={54.333} title='Pronóstico' percentage={16} latest="últimos 7 días" />
+                    <Chart value={revenues!} title='Ganancias' percentage={12} latest="últimos 7 días" />
+                    <Chart value={expenses!} title='Gastos' percentage={5} latest="últimos 7 días" />
+                    <Chart value={profit!} title='Beneficio' percentage={16} latest="últimos 7 días" />
                 </section>
                 <section className="">
                     

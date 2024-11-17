@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
 
 export default function Clients() {
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, primaryKey, handlePrimaryKey } = useAuth();
     const [filteredClients, setFilteredClients] = useState<iClient[]>([]);
     const [clients, setClients] = useState<iClient[]>([])
 
@@ -36,14 +36,14 @@ export default function Clients() {
         clientBodyRequest.rut = formValues.rut
     }
 
-    useEffect(() => {
-        async function getClients() {
-            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Clients`)
-            setClients(response)
-        }
+    async function getClients() {
+        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Clients`)
+        setClients(response)
+    }
 
+    useEffect(() => {
         getClients()
-    }, [clients])
+    }, [])
 
     useEffect(() => {
         try {
@@ -112,6 +112,8 @@ export default function Clients() {
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Clients/CreateClient`}
                     bodyRequest={clientBodyRequest}
                     entityName='nuevo cliente'
+                    onCreateSuccess={getClients}
+                    id={formValues.rut}
                 >
                     <div className="flex flex-col gap-2 mb-4">
                         <label className="block" htmlFor={'rut'}>Rut</label>
@@ -163,6 +165,7 @@ export default function Clients() {
                     bodyRequest={clientBodyRequest}
                     entityName="cliente"
                     id={formValues.rut}
+                    onCreateSuccess={getClients}
                 >
                     <div className="flex flex-col gap-2 mb-4">
                         <label className="block" htmlFor={'email'}>Correo</label>

@@ -4,9 +4,9 @@ import { GenericCreate } from "@/components/crud/genericCreate";
 import { GenericUpdate } from "@/components/crud/genericUpdate";
 import { GenericRead } from "@/components/crud/genericRead";
 import { GenericInput } from "@/components/genericInput";
-import { iBill, iSale } from "@/interfaces/types";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
+import { iBill } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
 
 export default function Bills() {
@@ -33,18 +33,18 @@ export default function Bills() {
         lastModificationBy: null
     }
 
-    useEffect(() => {
-        async function getBills() {
-            try {
-                const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Bills`)
-                setBills(response)
-            } catch (e) {
-                console.error(e)
-            }
+    async function getBills() {
+        try {
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Bills`)
+            setBills(response)
+        } catch (e) {
+            console.error(e)
         }
+    }
 
+    useEffect(() => {
         getBills()
-    }, [bills])
+    }, [])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -117,6 +117,7 @@ export default function Bills() {
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Bills/CreateBill`}
                     bodyRequest={billBodyRequest}
                     entityName='nuevo gasto'
+                    onCreateSuccess={getBills}
                 >
                     <GenericInput label='Producto' name='product' type='text' handleChange={handleChange} />
                     <GenericInput label='Valor unitario' name='unitValue' type='number' handleChange={handleChange} />
@@ -130,6 +131,7 @@ export default function Bills() {
                     bodyRequest={billBodyRequest}
                     entityName="gasto"
                     id={formValues.id}
+                    onCreateSuccess={getBills}
                 >
                     <GenericInput label='Producto' name='product' type='text' value={formValues.product} handleChange={handleChange} />
                     <GenericInput label='Valor unitario' name='unitValue' type='number' value={formValues.unitValue} handleChange={handleChange} />

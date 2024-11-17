@@ -12,6 +12,11 @@ export interface iAuthContext {
     filter: Record<string, string>;
     handleCleanInput: () => void;
     handleCleanFilter: (e: React.FormEvent) => void;
+    highlightActivate: boolean | null;
+    handleHighlightActivate: () => void;
+    primaryKey: any;
+    handlePrimaryKey: (pk: string | number) => void;
+    handleCleanPrimaryKey: () => void;
     // handleClickFilter: (e: React.MouseEvent<HTMLElement>) => void;
 }
 

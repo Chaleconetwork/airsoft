@@ -1,12 +1,12 @@
-import { FIELDS_COLUMNS, SALE_COLUMNS } from "@/utils/tableFormat/columnsFormats";
-import { iFieldBodyRequest, iSaleBodyRequest } from "@/interfaces/bodyRequestType";
+import { FIELDS_COLUMNS } from "@/utils/tableFormat/columnsFormats";
+import { iFieldBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericCreate } from "@/components/crud/genericCreate";
 import { GenericUpdate } from "@/components/crud/genericUpdate";
 import { GenericRead } from "@/components/crud/genericRead";
 import { GenericInput } from "@/components/genericInput";
 import { useAuth } from "@/context/authContext";
+import { iField } from "@/interfaces/types";
 import { useEffect, useState } from "react";
-import { iField, iSale } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
 
 export default function Fields() {
@@ -22,27 +22,28 @@ export default function Fields() {
     });
 
     const fieldBodyRequest: iFieldBodyRequest = {
+        // id: parseInt(formValues.id),
         fieldName: formValues.fieldName,
         createdBy: 'Chaleco',
         lastModificationBy: null
     }
 
-    if (openModalCreate) {
+    if (openModalUpdate) {
         fieldBodyRequest.id = parseInt(formValues.id)
     }
 
-    useEffect(() => {
-        async function getSales() {
-            try {
-                const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Fields`)
-                setFields(response)
-            } catch (e) {
-                console.error(e)
-            }
+    async function getFields() {
+        try {
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Fields`)
+            setFields(response)
+        } catch (e) {
+            console.error(e)
         }
+    }
 
-        getSales()
-    }, [fields])
+    useEffect(() => {
+        getFields()
+    }, [])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -106,8 +107,10 @@ export default function Fields() {
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Fields/CreateField`}
                     bodyRequest={fieldBodyRequest}
                     entityName='nueva cancha'
+                    onCreateSuccess={getFields}
                 >
-                    <GenericInput label='Cancha' name='fieldName' type='text' handleChange={handleChange} />                
+                    {/* <GenericInput label='Id' name='id' type='number' handleChange={handleChange} /> */}
+                    <GenericInput label='Cancha' name='fieldName' type='text' handleChange={handleChange} />
                 </GenericCreate>
             }
             {
@@ -116,8 +119,9 @@ export default function Fields() {
                     bodyRequest={fieldBodyRequest}
                     entityName="cancha"
                     id={formValues.id}
+                    onCreateSuccess={getFields}
                 >
-                    <GenericInput label='Cancha' name='fieldName' type='text' value={formValues.fieldName} handleChange={handleChange} />                
+                    <GenericInput label='Cancha' name='fieldName' type='text' value={formValues.fieldName} handleChange={handleChange} />
                 </GenericUpdate>
             }
         </div>

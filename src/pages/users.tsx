@@ -49,14 +49,14 @@ export default function Users() {
         userBodyRequest.rut = formValues.rut
     }
 
-    useEffect(() => {
-        async function getUsers() {
-            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users`)
-            setUsers(response)
-        }
+    async function getUsers() {
+        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users`)
+        setUsers(response)
+    }
 
+    useEffect(() => {
         getUsers()
-    }, [users])
+    }, [])
 
     useEffect(() => {
         try {
@@ -131,6 +131,7 @@ export default function Users() {
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Users/CreateUser`}
                     bodyRequest={userBodyRequest}
                     entityName='nuevo usuario'
+                    onCreateSuccess={getUsers}
                 >
                     <div className="flex flex-col gap-2 mb-4">
                         <h4 className="font-semibold">Creando usuario: {formValues.rut}</h4>
@@ -161,7 +162,6 @@ export default function Users() {
                                 { label: "Moderador", value: "2" }
                             ]}
                         />
-
                     </div>
                 </GenericCreate>
             }
@@ -171,6 +171,7 @@ export default function Users() {
                     bodyRequest={userBodyRequest}
                     entityName="usuario"
                     id={formValues.rut}
+                    onCreateSuccess={getUsers}
                 >
                     <div className="flex flex-col gap-2 mb-4">
                         <h4 className="font-semibold">Modificando usuario: {formValues.rut}</h4>

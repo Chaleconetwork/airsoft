@@ -1,30 +1,33 @@
 import { useAuth } from '@/context/authContext';
 import { Fetch } from '@/utils/api/fetch';
-import { useEffect, useState } from 'react';
 
 interface Props<T> {
     url: string;
     bodyRequest: T;
     entityName: string;
     children: React.ReactNode;
+    onCreateSuccess?: () => void;
+    id?: string | number;
 }
 
-export const GenericCreate = <T,>({ url, bodyRequest, entityName, children }: Props<T>) => {
-    const { handleOpenModalCreate } = useAuth();
+export const GenericCreate = <T extends object>({ url, bodyRequest, entityName, children, onCreateSuccess, id }: Props<T>) => {
+    const { handleOpenModalCreate, handleHighlightActivate, handlePrimaryKey, handleCleanInput } = useAuth();
 
     async function handleCreate(e: React.FormEvent) {
         e.preventDefault();
         const request = await Fetch.post(url, bodyRequest);
         handleOpenModalCreate()
-        console.log('Create body request: ', bodyRequest)
+        handleCleanInput()
+
+        // console.log('Id: ',id)
+        if (onCreateSuccess) {
+            onCreateSuccess();
+            handleHighlightActivate()
+            handlePrimaryKey(id!)
+        }
+
         return request;
     }
-
-    useEffect(() => {
-        console.log('Url: ', url);
-        // console.log(entity);
-        console.log('variable produccion: ', process.env.NEXT_PUBLIC_API_URL);
-    }, []);
 
     return (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -36,7 +39,7 @@ export const GenericCreate = <T,>({ url, bodyRequest, entityName, children }: Pr
                     &times;
                 </button>
                 <h2 className="text-lg font-bold mb-4">Crear {entityName}</h2>
-                <form onSubmit={handleCreate} className={`${entityName == 'usuario' ? 'flex gap-4':''}`}>
+                <form onSubmit={handleCreate} className={`${entityName == 'usuario' ? 'flex gap-4' : ''}`}>
                     {children}
                     <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
                         Guardar

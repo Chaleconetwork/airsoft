@@ -12,7 +12,7 @@ import { Fetch } from "@/utils/api/fetch";
 export default function Sales() {
     const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
     const [filteredSales, setFilteredSales] = useState<iSale[]>([]);
-    const [userRut, setUserRut] = useState<string>('');
+    const [userId, setUserId] = useState<string>('');
     const [sales, setSales] = useState<iSale[]>([])
 
     const [formValues, setFormValues] = useState<any>({
@@ -28,7 +28,7 @@ export default function Sales() {
     const saleBodyRequest: iSaleBodyRequest = {
         unitValue: parseInt(formValues.unitValue),
         amount: parseInt(formValues.amount),
-        userId: userRut,
+        userId: userId,
         rutCliente: formValues.rutCliente,
         createdBy: 'Chaleco',
         lastModificationBy: null
@@ -38,20 +38,20 @@ export default function Sales() {
         saleBodyRequest.id = parseInt(formValues.id)
     }
 
-    useEffect(() => {
-        async function getSales() {
-            try {
-                const getUserId = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users/GetUserByUsername/${'Israel'}`)
-                setUserRut(getUserId.rut)
-                const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Sales`)
-                setSales(response)
-            } catch (e) {
-                console.error(e)
-            }
+    async function getSales() {
+        try {
+            const getUserId = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users/GetUserByUsername/${'Israel'}`)
+            setUserId(getUserId?.rut)
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Sales`)
+            setSales(response)
+        } catch (e) {
+            console.error(e)
         }
+    }
 
+    useEffect(() => {
         getSales()
-    }, [sales])
+    }, [])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -123,10 +123,11 @@ export default function Sales() {
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Sales/CreateSale`}
                     bodyRequest={saleBodyRequest}
                     entityName='nueva venta'
+                    onCreateSuccess={getSales}
                 >
                     <GenericInput label='Valor unitario' name='unitValue' type='number' handleChange={handleChange} />
                     <GenericInput label='Cantidad' name='amount' type='number' handleChange={handleChange} />
-                    <GenericInput label='Encargado' name='username' type='text' handleChange={handleChange} />
+                    <GenericInput label='Encargado' name='username' type='text' value='Israel' handleChange={handleChange} />
                     <GenericInput label='Cliente' name='rutCliente' type='text' handleChange={handleChange} />
                 </GenericCreate>
             }
@@ -136,6 +137,7 @@ export default function Sales() {
                     bodyRequest={saleBodyRequest}
                     entityName="venta"
                     id={formValues.id}
+                    onCreateSuccess={getSales}
                 >
                     <GenericInput label='Valor unitario' name='unitValue' type='number' value={formValues.unitValue} handleChange={handleChange} />
                     <GenericInput label='Cantidad' name='amount' type='number' value={formValues.amount} handleChange={handleChange} />
