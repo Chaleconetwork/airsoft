@@ -28,6 +28,8 @@ export interface iPlayer {
     names?: string;
     surnames?: string;
     phone?: string;
+    teamName: string;
+    gameId: number;
     banned?: boolean;
     creationDate?: string;
     createdBy?: string;
@@ -63,7 +65,7 @@ export interface iSale {
 
 export interface iTeam {
     id: number;
-    teamName: string;
+    teamName: string | string;
     creationDate?: string;
     createdBy?: string;
     lastModificationDate?: string;
@@ -79,6 +81,16 @@ export interface iField {
     lastModificationBy: string;
 }
 
+export interface iEvent {
+    id: number;
+    eventName: string;
+    startDate: string;
+    creationDate?: string;
+    createdBy?: string;
+    lastModificationDate?: string;
+    lastModificationBy?: string;
+}
+
 export interface iBill {
     id?: number;
     product: string;
@@ -86,6 +98,15 @@ export interface iBill {
     amount: number;
     totalValue: number;
     supplier: string;
+    creationDate?: string;
+    createdBy?: string;
+    lastModificationDate?: string;
+    lastModificationBy: string;
+}
+
+export interface iGame {
+    id?: number;
+    fieldId: number;
     creationDate?: string;
     createdBy?: string;
     lastModificationDate?: string;

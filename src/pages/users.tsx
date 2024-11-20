@@ -196,7 +196,7 @@ export default function Users() {
                             label="Role"
                             name="roleId"
                             type="number"
-                            value={formValues.roleId}
+                            value={formValues.roleName}
                             handleChange={handleChange}
                             options={[
                                 { label: "Administrador", value: 1 },

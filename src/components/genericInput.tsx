@@ -3,12 +3,13 @@ interface Props {
     name: string;
     type: string;
     // htmlFor: string;
+    required?: boolean;
     value?: string;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
     options?: { label: string; value: number | string }[]; // Opcional para el select
 }
 
-export const GenericInput = ({ label, name, type, value, handleChange, options }: Props) => {
+export const GenericInput = ({ label, name, type, value, handleChange, options, required }: Props) => {
     return (
         <div>
             <label className="block" htmlFor=''>{label}</label>
@@ -18,6 +19,7 @@ export const GenericInput = ({ label, name, type, value, handleChange, options }
                     name={name}
                     className="p-1.5 outline-none border w-full rounded-md"
                     value={value}
+                    required={required}
                 >
                     <option value="">Selecciona una opción</option>
                     {options.map((option) => (

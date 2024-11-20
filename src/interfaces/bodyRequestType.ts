@@ -28,9 +28,11 @@ export interface iPlayerBodyRequest {
     names?: string;
     surnames?: string;
     phone?: string;
+    teamId: number | string;
+    gameId: number;
+    banned: boolean;
     createdBy?: string;
     lastModificationBy?: string | null;
-    banned: boolean;
 }
 
 export interface iSaleBodyRequest {
@@ -58,12 +60,27 @@ export interface iFieldBodyRequest {
     lastModificationBy?: string | null;
 }
 
+export interface iEventBodyRequest {
+    id?: number | null;
+    eventName: string;
+    startDate: string;
+    createdBy?: string;
+    lastModificationBy?: string | null;
+}
+
 export interface iBillBodyRequest {
     id?: number | null;
     product: string;
     unitValue: number,
     amount: number;
     supplier: string;
+    createdBy: string;
+    lastModificationBy?: string | null;
+}
+
+export interface iGameBodyRequest {
+    id?: number | null,
+    fieldId: number;
     createdBy: string;
     lastModificationBy?: string | null;
 }

@@ -18,7 +18,7 @@ export const GenericUpdate = <T extends object>({ url, bodyRequest, entityName, 
         const request = await Fetch.put(url, bodyRequest);
         handleOpenModalUpdate()
         handleCleanInput()
-
+        console.log(bodyRequest)
         if (onCreateSuccess) {
             onCreateSuccess();
             handleHighlightActivate()

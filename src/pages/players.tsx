@@ -5,7 +5,7 @@ import { GenericUpdate } from "@/components/crud/genericUpdate";
 import { GenericRead } from "@/components/crud/genericRead";
 import { GenericInput } from "@/components/genericInput";
 import { useAuth } from "@/context/authContext";
-import { iPlayer } from "@/interfaces/types";
+import { iGame, iPlayer, iTeam } from "@/interfaces/types";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
 
@@ -13,6 +13,8 @@ export default function Players() {
     const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
     const [filteredPlayers, setFilteredPlayers] = useState<iPlayer[]>([]);
     const [players, setPlayers] = useState<iPlayer[]>([])
+    const [teams, setTeams] = useState<iTeam[]>([])
+    const [games, setGames] = useState<iGame[]>([])
 
     const [formValues, setFormValues] = useState<any>({
         rut: '',
@@ -21,8 +23,11 @@ export default function Players() {
         surnames: '',
         phone: '',
         banned: false,
+        teamId: 0,
+        gameId: 0,
         createdBy: '',
-        lastModificationBy: null
+        lastModificationBy: null,
+        teamName: ''
     });
 
     const playerBodyRequest: iPlayerBodyRequest = {
@@ -31,9 +36,29 @@ export default function Players() {
         names: formValues.names,
         surnames: formValues.surnames,
         phone: formValues.phone,
-        banned: formValues.banned == 'true' ? false : true,
+        teamId: parseInt(formValues.teamId),
+        gameId: parseInt(formValues.gameId),
+        banned: formValues.banned == 1 ? true : false,
         createdBy: 'Chaleco',
-        lastModificationBy: null
+        lastModificationBy: null,
+    }
+
+    async function getTeams() {
+        try {
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Teams`)
+            setTeams(response)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    async function getGames() {
+        try {
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Games`)
+            setGames(response)
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     async function getPlayers() {
@@ -46,8 +71,10 @@ export default function Players() {
     }
 
     useEffect(() => {
+        getGames()
+        getTeams()
         getPlayers()
-    }, [players])
+    }, [])
 
     useEffect(() => {
         try {
@@ -61,7 +88,7 @@ export default function Players() {
         } catch (e) {
             console.error(e)
         }
-
+        console.log('Test teamId: ', formValues.teamId)
     }, [filter, players]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -85,9 +112,11 @@ export default function Players() {
                         <td className="py-2 whitespace-nowrap">{i.names}</td>
                         <td className="py-2 whitespace-nowrap">{i.surnames}</td>
                         <td className="py-2 whitespace-nowrap">{i.phone}</td>
+                        <td className="py-2 whitespace-nowrap">{i.teamName}</td>
+                        <td className="py-2 whitespace-nowrap">{i.gameId}</td>
+                        <td className="py-2 whitespace-nowrap">{i.banned ? 'Si' : 'No'}</td>
                         <td className="py-2 whitespace-nowrap">{i.creationDate}</td>
                         <td className="py-2 whitespace-nowrap">{i.createdBy}</td>
-                        <td className="py-2 whitespace-nowrap">{i.banned ? 'Si' : 'No'}</td>
                         <td className="py-2 whitespace-nowrap">{i.lastModificationDate}</td>
                         <td className="py-2 whitespace-nowrap">{i.lastModificationBy}</td>
                         <td className="py-2 whitespace-nowrap">
@@ -101,7 +130,9 @@ export default function Players() {
                                             names: i.names,
                                             surnames: i.surnames,
                                             phone: i.phone,
-                                            banned: i.banned
+                                            teamId: i.teamName,
+                                            gameId: i.gameId,
+                                            banned: i.banned,
                                         }
                                     )
                                 }}
@@ -128,7 +159,27 @@ export default function Players() {
                     <GenericInput label='Apellidos' name='surnames' type='text' handleChange={handleChange} />
                     <GenericInput label='Fono' name='phone' type='text' handleChange={handleChange} />
                     <GenericInput
-                        label="Estado"
+                        label="Equipo"
+                        name="teamId"
+                        type="number"
+                        handleChange={handleChange}
+                        options={teams.map(team => ({
+                            label: team.teamName,
+                            value: team.id
+                        }))}
+                    />
+                    <GenericInput
+                        label="PartidaId"
+                        name="gameId"
+                        type="number"
+                        handleChange={handleChange}
+                        options={games.map(game => ({
+                            label: (game.id || 0).toString(),
+                            value: game.id || 0
+                        }))}
+                    />
+                    <GenericInput
+                        label="Estado inicial"
                         name="banned"
                         type="text"
                         handleChange={handleChange}
@@ -154,14 +205,37 @@ export default function Players() {
                         <GenericInput label='Apellidos' name='surnames' type='text' value={formValues.surnames} handleChange={handleChange} />
                         <GenericInput label='Fono' name='phone' type='text' value={formValues.phone} handleChange={handleChange} />
                         <GenericInput
+                            label="Equipo"
+                            name="teamId"
+                            type="text"
+                            required={true}
+                            handleChange={handleChange}
+                            options={teams.map(team => ({
+                                label: team.teamName,
+                                value: team.id
+                            }))}
+                        />
+                        <GenericInput
+                            label="PartidaId"
+                            name="gameId"
+                            type="number"
+                            value={formValues.gameId}
+                            handleChange={handleChange}
+                            options={games.map(game => ({
+                                label: (game.id || 0).toString(),
+                                value: game.id || 0
+                            }))}
+                        />
+                        <GenericInput
                             label="¿Banear jugador?"
                             name="banned"
                             type="text"
+                            // required={true}
                             handleChange={handleChange}
-                            // value={formValues.banned}
+                            value={formValues.banned}
                             options={[
-                                { label: "Si", value: "false" },
-                                { label: "No", value: "true" }
+                                { label: "Si", value: 1 },
+                                { label: "No", value: 0 }
                             ]}
                         />
                     </div>

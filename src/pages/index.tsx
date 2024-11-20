@@ -1,9 +1,13 @@
-import { FieldCard } from "@/components/cards/fieldCard";
+import { Login } from "@/components/auth/login";
 
 export default function Home() {
     return (
-        <div className="mx-auto w-full">
-            <header className="m-auto text-center h-full">
+        <div className="flex flex-col justify-center items-center h-full w-full bg-gray-100 bg-gradient-to-r from-gray-100 to-gray-200">
+            <div className="mb-10">
+                <h1 className="text-3xl m-auto font-bold">Software de Gestión</h1>
+            </div>
+            <Login />
+            {/* <header className="m-auto text-center h-full">
                 <h1 className="text-5xl font-black pt-16 my-16">AIRSOFT</h1>
             </header>
             <main className="h-full bg-white p-4">
@@ -26,7 +30,7 @@ export default function Home() {
             </main>
             <footer className="p-4">
                 <h2 className="text-center">Todos los derechos reservados - 2024</h2>
-            </footer>
+            </footer> */}
         </div>
     );
 }

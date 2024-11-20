@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Signup() {
     return (
-        <div className="flex items-center justify-center h-full bg-gray-100 bg-gradient-to-r from-sky-700 to-blue-600">
+        <div className="flex items-center justify-center h-full bg-gray-100 bg-gradient-to-r from-gray-100 to-gray-200">
             <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-md">
                 <h2 className="text-2xl font-bold text-center text-gray-900">
                     Crea tu cuenta
@@ -58,7 +58,7 @@ export default function Signup() {
 
                     <div className="text-sm text-center">
                         ¿Ya tienes una cuenta?{' '}
-                        <Link href="/login">
+                        <Link href="/">
                             <span className="font-medium text-indigo-600 hover:text-indigo-500">
                                 Inicia sesión aquí
                             </span>

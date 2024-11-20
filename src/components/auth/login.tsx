@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
 
-export default function Login() {
+export const Login = () => {
     const [data, setData] = useState<iAuth>({email: '', password: ''})
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setData({ ...data, [e.target.name]: e.target.value })
@@ -28,8 +28,8 @@ export default function Login() {
     }
 
     return (
-        <div className="flex items-center justify-center h-full bg-gray-100 bg-gradient-to-r from-sky-700 to-blue-600">
-            <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-md">
+        <div className="min-w-[30%]">
+            <div className="w-full p-8 space-y-6 bg-white shadow-md rounded-md">
                 <h2 className="text-2xl font-bold text-center text-gray-900">
                     Inicia sesión
                 </h2>
