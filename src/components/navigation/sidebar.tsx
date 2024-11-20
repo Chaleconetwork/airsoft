@@ -14,7 +14,7 @@ const links = [
     { href: '/clients', icon: <FaUserTie />, label: 'Clientes' },
     { href: '/sales', icon: <AiFillDollarCircle />, label: 'Ventas' },
     { href: '/bills', icon: <FaMoneyBillWaveAlt />, label: 'Gastos' },
-    { href: '/events', icon: <MdEmojiEvents />, label: 'Eventos' },
+    // { href: '/events', icon: <MdEmojiEvents />, label: 'Eventos' },
     { href: '/players', icon: <PiUsersFourFill />, label: 'Jugadores' },
     { href: '/games', icon: <IoIosPlay />, label: 'Partidas' },
     { href: '/teams', icon: <RiTeamFill />, label: 'Equipos' },

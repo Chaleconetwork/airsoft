@@ -46,8 +46,8 @@ export const UserNavbar = () => {
             </ul>
             <ul className="flex text-gray-600">
                 <Link href='/'><li className="p-5 opacity-75">{time.day} de Noviembre</li></Link>
-                <Link href='/'><li className="p-5 opacity-75 text-xl"><IoIosNotifications /></li></Link>
-                <Link href='/'><li className="p-5 opacity-75">Reportes</li></Link>
+                {/* <Link href='/'><li className="p-5 opacity-75 text-xl"><IoIosNotifications /></li></Link> */}
+                {/* <Link href='/'><li className="p-5 opacity-75">Reportes</li></Link> */}
                 <Link href='/'><li className="p-5 opacity-75">Administrador</li></Link>
                 <Link href='/'><li className="p-5 text-xl"><FaHouseChimneyUser /></li></Link>
             </ul>

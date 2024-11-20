@@ -123,14 +123,22 @@ export default function Dashboard() {
             <h1 className="text-2xl font-semibold opacity-65 mb-4">Panel</h1>
             <main className="">
                 <section className="flex justify-between w-full gap-2 mb-4">
-                    <Kpi value={revenues!} title="Ganancias" percentage={12} latest="últimos 7 días" />
-                    <Kpi value={expenses!} title="Gastos" percentage={5} latest="últimos 7 días" />
-                    <Kpi value={profit!} title="Beneficio" percentage={16} latest="últimos 7 días" />
+                    {/* Porcentaje de los gastos sobre las ganancias */}
+                    <Kpi value={revenues!} title="Total de ventas" latest="" />
+
+                    {/* Porcentaje de los gastos sobre las ganancias */}
+                    <Kpi value={expenses!} title="Gastos" percentage={Math.round((expenses! / revenues!) * 100 * 100) / 100} latest="" />
+
+                    {/* Porcentaje de los beneficios sobre las ganancias */}
+                    <Kpi value={profit!} title="Beneficio" percentage={Math.round((profit! / revenues!) * 100 * 100) / 100} latest="" />
                 </section>
-                <section className="flex flex-col gap-4">
+
+
+
+                {/* <section className="flex flex-col gap-4">
                     <MinorKpi title="Mejores clientes" array={bestClient!} />
                     <MinorKpi title="Mejores jugadores" />
-                </section>
+                </section> */}
                 <section className="mt-4">
                     <div className="w-full h-96 shadow-xl rounded-md pb-10 pt-4 px-4 bg-white">
                         <h2 className="text-gray-500 font-medium text-lg">Gráfico periodo de ventas</h2>
