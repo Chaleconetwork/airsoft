@@ -208,7 +208,7 @@ export default function Players() {
                             label="Equipo"
                             name="teamId"
                             type="text"
-                            required={true}
+                            required={false}
                             handleChange={handleChange}
                             options={teams.map(team => ({
                                 label: team.teamName,

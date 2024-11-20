@@ -1,7 +1,7 @@
+import { MinorKpi } from "@/components/charts/minorKpi";
 import { Kpi } from "@/components/charts/kpi";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
-import { MinorKpi } from "@/components/charts/minorKpi";
 import { Line } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -14,7 +14,6 @@ import {
     Legend,
 } from "chart.js";
 
-// Registrar los elementos requeridos por Chart.js
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -25,14 +24,24 @@ ChartJS.register(
     Legend
 );
 
+interface SalesByMonthDto {
+    month: number;
+    totalSales: number;
+}
+
 export default function Dashboard() {
+    const [bestClient, setBestClient] = useState<{ Rut: string, Names: string, TotalInverted: number }[]>([]);
+    const [salesPeriod1, setSalesPeriod1] = useState<SalesByMonthDto[]>([]);
+    const [salesPeriod2, setSalesPeriod2] = useState<SalesByMonthDto[]>([]);
     const [revenues, setRevenues] = useState<number>();
+    const [labels, setLabels] = useState<string[]>([]);
     const [expenses, setExpenses] = useState<number>();
     const [profit, setProfit] = useState<number>();
-    const [bestClient, setBestClient] = useState<{ Rut: string, Names: string, TotalInverted: number }[]>([]);
-    const [salesPeriod1, setSalesPeriod1] = useState<number[]>([]);
-    const [salesPeriod2, setSalesPeriod2] = useState<number[]>([]);
-    const [labels, setLabels] = useState<string[]>([]);
+
+    const allMonths = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
 
     useEffect(() => {
         async function getDashboard() {
@@ -48,45 +57,47 @@ export default function Dashboard() {
                 `${process.env.NEXT_PUBLIC_API_URL}/Dashboard/profit`
             );
             setProfit(responseProfit);
-            // const responseBestClients = await Fetch.get(
-            //     `${process.env.NEXT_PUBLIC_API_URL}/Dashboard/top-clients`
-            // );
-            // console.log(responseBestClients)
-            // setBestClient(responseBestClients);
-
-            // Obtén los datos para los períodos de ventas
-            const responseSales1 = await Fetch.get(
+            const responseSales1: SalesByMonthDto[] = await Fetch.get(
                 `${process.env.NEXT_PUBLIC_API_URL}/Dashboard/salesPeriod1`
             );
-            const responseSales2 = await Fetch.get(
+            console.log("Ventas Periodo 1:", responseSales1);
+            setSalesPeriod1(responseSales1);
+
+            const responseSales2: SalesByMonthDto[] = await Fetch.get(
                 `${process.env.NEXT_PUBLIC_API_URL}/Dashboard/salesPeriod2`
             );
-            const responseLabels = await Fetch.get(
-                `${process.env.NEXT_PUBLIC_API_URL}/Dashboard/salesLabels`
-            );
+            console.log("Ventas Periodo 2:", responseSales2);
+            setSalesPeriod2(responseSales2);
 
-            setSalesPeriod1([10000, 20000, 30000, 50000, 55000, 60000, 75000, 80000, 85000, 100000, 120000, 150000]);
-            setSalesPeriod2([120000, 130000, 140000, 150000, 180000, 190000, 200000, 210000, 250000, 260000, 270000, 275000]);
-            setLabels(["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]); // Etiquetas para los ejes
+            const monthsPeriod1 = responseSales1.map((item) => allMonths[item.month - 1]);
+            const monthsPeriod2 = responseSales2.map((item) => allMonths[item.month - 1]);
+            const allMonthsSet = new Set([...monthsPeriod1, ...monthsPeriod2]);
+
+            setLabels(Array.from(allMonthsSet));
         }
 
         getDashboard();
     }, []);
 
-    // Datos para el gráfico
     const data = {
-        labels: labels, // Etiquetas dinámicas
+        labels: labels,
         datasets: [
             {
                 label: "2023",
-                data: salesPeriod1,
+                data: labels.map((label) => {
+                    const sales = salesPeriod1.find((item) => allMonths[item.month - 1] === label);
+                    return sales ? sales.totalSales : 0;
+                }),
                 borderColor: "rgba(75, 192, 192, 1)",
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
-                tension: 0.4, // Líneas suavizadas
+                tension: 0.4,
             },
             {
                 label: "2024",
-                data: salesPeriod2,
+                data: labels.map((label) => {
+                    const sales = salesPeriod2.find((item) => allMonths[item.month - 1] === label);
+                    return sales ? sales.totalSales : 0;
+                }),
                 borderColor: "rgba(153, 102, 255, 1)",
                 backgroundColor: "rgba(153, 102, 255, 0.2)",
                 tension: 0.4,
@@ -118,7 +129,7 @@ export default function Dashboard() {
                 </section>
                 <section className="flex flex-col gap-4">
                     <MinorKpi title="Mejores clientes" array={bestClient!} />
-                    <MinorKpi title="Mejores jugadores"  />
+                    <MinorKpi title="Mejores jugadores" />
                 </section>
                 <section className="mt-4">
                     <div className="w-full h-96 shadow-xl rounded-md pb-10 pt-4 px-4 bg-white">
