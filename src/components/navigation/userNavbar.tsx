@@ -34,7 +34,7 @@ export const UserNavbar = () => {
                     <li className="flex items-center">
                         <Image
                             className="w-32"
-                            src="/logoairsoft.png"
+                            src="/logoairsoft2.png"
                             width={32}
                             height={32}
                             priority
