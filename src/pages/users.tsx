@@ -29,12 +29,11 @@ export default function Users() {
     });
 
     const userBodyRequest: iUserBodyRequest = {
-        rut: formValues.rut,
         email: formValues.email,
         names: formValues.names,
         surnames: formValues.surnames,
         phone: formValues.phone,
-        username: formValues.phone,
+        username: formValues.username,
         status: formValues.status == 'true' ? true : false,
         roleId: parseInt(formValues.roleId),
         createdBy: 'Chaleco',
@@ -43,9 +42,6 @@ export default function Users() {
 
     if (openModalCreate) {
         userBodyRequest.password = formValues.password
-    }
-
-    if (openModalUpdate) {
         userBodyRequest.rut = formValues.rut
     }
 
@@ -175,7 +171,6 @@ export default function Users() {
                 >
                     <div className="flex flex-col gap-2 mb-4">
                         <h4 className="font-semibold">Modificando usuario: {formValues.rut}</h4>
-                        <GenericInput label='Rut' name='rut' type='text' value={formValues.rut} handleChange={handleChange} />
                         <GenericInput label='Correo' name='email' type='text' value={formValues.email} handleChange={handleChange} />
                         <GenericInput label='Nombres' name='names' type='text' value={formValues.names} handleChange={handleChange} />
                         <GenericInput label='Apellidos' name='surnames' type='text' value={formValues.surnames} handleChange={handleChange} />

@@ -1,5 +1,5 @@
 export interface iUserBodyRequest {
-    rut: string;
+    rut?: string | null;
     email?: string;
     names?: string;
     surnames?: string;
