@@ -7,9 +7,10 @@ import { useAuth } from "@/context/authContext";
 import { iClient } from "@/interfaces/types";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/utils/api/fetch";
+import { useRouter } from "next/router";
 
 export default function Clients() {
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, primaryKey, handlePrimaryKey } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination, isAuthenticated } = useAuth();
     const [filteredClients, setFilteredClients] = useState<iClient[]>([]);
     const [clients, setClients] = useState<iClient[]>([])
 
@@ -37,13 +38,13 @@ export default function Clients() {
     }
 
     async function getClients() {
-        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Clients`)
+        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Clients/GetClients/${pagination}`)
         setClients(response)
     }
 
     useEffect(() => {
         getClients()
-    }, [])
+    }, [pagination])
 
     useEffect(() => {
         try {
@@ -67,6 +68,13 @@ export default function Clients() {
             [name]: value
         });
     };
+
+    const router = useRouter();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated])
 
     return (
         <div className="">
@@ -107,6 +115,7 @@ export default function Clients() {
                     </>
                 )}
             />
+
             {
                 openModalCreate && <GenericCreate
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Clients/CreateClient`}

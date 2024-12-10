@@ -26,8 +26,7 @@ export const Navbar = () => {
                 {/* <Link href='/'><li className="p-5">Contactos</li></Link> */}
             </ul>
             <ul className="flex">
-                <Link href='/login'><li className="p-5 opacity-75">Iniciar sesión</li></Link>
-                <Link href='/signup'><li className="p-5"><span className="bg-blue-500 text-white rounded-full p-2.5">Crear cuenta</span></li></Link>
+                <Link href='/'><li className="p-5 opacity-75">Iniciar sesión</li></Link>
             </ul>
         </nav>
     )

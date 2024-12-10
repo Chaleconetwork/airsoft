@@ -1,13 +1,13 @@
 import { useAuth } from "@/context/authContext";
-import { iAuth } from "@/interfaces/types";
+import { iResetUserPassword } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
-export const Login = () => {
-    const { login, handleUsername, handleRolename } = useAuth();
-    const [data, setData] = useState<iAuth>({ email: '', password: '' });
+export default function ResetPassword() {
+    const { isResetedPassword } = useAuth();
+    const [data, setData] = useState<iResetUserPassword>({ email: '', newPassword: '', newPassword2: '' });
+    const [message, setMessage] = useState<string>('')
     const router = useRouter();
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -18,43 +18,55 @@ export const Login = () => {
         e.preventDefault();
 
         // Basic form validation
-        if (!data.email || !data.password) {
+        if (!data.email || !data.newPassword || !data.newPassword2) {
             return alert('Debe completar todos los campos');
         }
 
-        const LoginbodyRequest: iAuth = {
+        const resetUserPasswordbodyRequest: iResetUserPassword = {
             email: data.email,
-            password: data.password
+            newPassword: data.newPassword,
+            newPassword2: data.newPassword2
         };
 
         try {
-            const response = await Fetch.post(`${process.env.NEXT_PUBLIC_API_URL}/Auth/Login`, LoginbodyRequest);
+            const response = await Fetch.post(`${process.env.NEXT_PUBLIC_API_URL}/Auth/ForgotPassword`, resetUserPasswordbodyRequest);
 
-            if (response?.token) {
-                // Store token in localStorage and update authentication state
-                login(response.token);
-                console.log(response.username)
-                handleUsername(response.username)
-                handleRolename(response.rolename)
-                
+            if (response) {
+                // resetPassword(response.token);
+                setMessage('Su contraseña ha sido actualizada correctamente')
                 router.push("/dashboard");
-            } else {
-                alert('Credenciales incorrectas');
             }
         } catch (error) {
-            console.error("Error during login:", error);
-            alert('Error al intentar iniciar sesión');
+            console.error(error);
         }
     }
 
-    useEffect(()=>{
-        // console.log(object)
-    }, [])
+    useEffect(() => {
+        const intervalo = setInterval(() => {
+            setMessage('')
+        }, 10000);
+
+        return () => clearInterval(intervalo);
+    }, [message])
+
+    // useEffect(() => {
+    //     if (!isResetedPassword) {
+    //         router.push("/");
+    //     }
+    //     console.log(isResetedPassword)
+    // }, [isResetedPassword])
 
     return (
-        <div className="min-w-[30%]">
-            <div className="w-full p-8 space-y-6 bg-white shadow-md rounded-md">
-                <h2 className="text-2xl font-bold text-center text-gray-900">Inicia sesión</h2>
+        <div className="max-w-[30%] flex items-center mx-auto h-full">
+            {
+                message.length > 0 &&
+                <div className="absolute top-16 right-10 shadow-md max-w-[400px] p-2 rounded-md bg-green-400 text-white">
+                    {message}
+                </div>
+            }
+
+            <div className="w-full p-8 space-y-6 shadow-md rounded-md">
+                <h2 className="text-2xl font-bold text-center text-gray-900">Recuperar contraseña</h2>
                 <form className="mt-8 space-y-6" method="post">
                     <div className="rounded-md shadow-sm">
                         <div>
@@ -73,44 +85,32 @@ export const Login = () => {
                             />
                         </div>
                         <div className="">
-                            <label htmlFor="password" className="sr-only">
+                            <label htmlFor="newPassword" className="sr-only">
                                 Contraseña
                             </label>
                             <input
-                                id="password"
-                                name="password"
+                                id="newPassword"
+                                name="newPassword"
                                 type="password"
-                                autoComplete="current-password"
                                 onChange={handleChange}
                                 required
                                 className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Contraseña"
+                                placeholder="Nueva contraseña"
                             />
                         </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                            />
-                            <label
-                                htmlFor="remember-me"
-                                className="block ml-2 text-sm text-gray-900"
-                            >
-                                Recuerdame
+                        <div className="">
+                            <label htmlFor="newPassword2" className="sr-only">
+                                Confirmar contraseña
                             </label>
-                        </div>
-
-                        <div className="text-sm">
-                            <Link href="/forgotPassword">
-                                <span className="font-medium text-blue-600 hover:text-blue-500">
-                                    ¿Olvidaste tu contraseña?
-                                </span>
-                            </Link>
+                            <input
+                                id="newPassword2"
+                                name="newPassword2"
+                                type="password"
+                                onChange={handleChange}
+                                required
+                                className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="Confirmar contraseña"
+                            />
                         </div>
                     </div>
 

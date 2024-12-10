@@ -28,8 +28,6 @@ export interface iPlayerBodyRequest {
     names?: string;
     surnames?: string;
     phone?: string;
-    teamId: number | string;
-    gameId: number;
     banned: boolean;
     createdBy?: string;
     lastModificationBy?: string | null;
@@ -39,8 +37,7 @@ export interface iSaleBodyRequest {
     id?: number | null;
     unitValue: number;
     amount: number;
-    paymentMethod: string;
-    userId: string;
+    paymentMethodId: number;
     rutClient: string;
     createdBy: string;
     lastModificationBy?: string | null;
@@ -55,7 +52,8 @@ export interface iTeamBodyRequest {
 
 export interface iFieldBodyRequest {
     id?: number | null;
-    fieldName: string;
+    reservationDateInit?: string | null;
+    reservationDateEnd?: string | null;
     createdBy: string;
     lastModificationBy?: string | null;
 }
@@ -78,8 +76,10 @@ export interface iBillBodyRequest {
     lastModificationBy?: string | null;
 }
 
-export interface iGameBodyRequest {
+export interface iPlayerGameBodyRequest {
     id?: number | null,
+    playerRut: string;
+    teamId: number;
     fieldId: number;
     createdBy: string;
     lastModificationBy?: string | null;

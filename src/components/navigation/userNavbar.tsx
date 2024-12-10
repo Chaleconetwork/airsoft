@@ -3,9 +3,11 @@ import { FaHouseChimneyUser } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link"
+import { useAuth } from "@/context/authContext";
 
 export const UserNavbar = () => {
     const [time, setTime] = useState({'now': '', 'seconds': '', 'minutes': '', 'hours': '', 'day': '', 'month': '', 'year': ''})
+    const { username, rolename } = useAuth();
 
     useEffect(() => {
         const now = new Date();
@@ -48,7 +50,8 @@ export const UserNavbar = () => {
                 <Link href='/'><li className="p-5 opacity-75">{time.day} de Noviembre</li></Link>
                 {/* <Link href='/'><li className="p-5 opacity-75 text-xl"><IoIosNotifications /></li></Link> */}
                 {/* <Link href='/'><li className="p-5 opacity-75">Reportes</li></Link> */}
-                <Link href='/'><li className="p-5 opacity-75">Administrador</li></Link>
+                <Link href='/'><li className="p-5 opacity-75">{username}</li></Link>
+                <Link href='/'><li className="p-5 opacity-75">{rolename}</li></Link>
                 <Link href='/'><li className="p-5 text-xl"><FaHouseChimneyUser /></li></Link>
             </ul>
         </nav>

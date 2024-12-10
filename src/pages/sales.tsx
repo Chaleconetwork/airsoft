@@ -1,3 +1,4 @@
+import { iClient, iPaymentMethod, iSale } from "@/interfaces/types";
 import { SALE_COLUMNS } from "@/utils/tableFormat/columnsFormats";
 import { iSaleBodyRequest } from "@/interfaces/bodyRequestType";
 import { GenericCreate } from "@/components/crud/genericCreate";
@@ -6,34 +7,34 @@ import { GenericRead } from "@/components/crud/genericRead";
 import { GenericInput } from "@/components/genericInput";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
-import { iSale } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
+import { useRouter } from "next/router";
 
 export default function Sales() {
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination, isAuthenticated, username } = useAuth();
+    const [paymentMethods, setPaymentMethods] = useState<iPaymentMethod[]>([])
     const [filteredSales, setFilteredSales] = useState<iSale[]>([]);
-    const [userId, setUserId] = useState<string>('');
     const [sales, setSales] = useState<iSale[]>([])
+    const [clients, setClients] = useState<iClient[]>([])
 
     const [formValues, setFormValues] = useState<any>({
         id: '',
         unitValue: '',
         amount: '',
-        paymentMethod: '',
+        paymentMethodId: '',
         userId: '',
         rutClient: '',
         createdBy: '',
-        lastModificationBy: null
+        lastModificationBy: ''
     });
 
     const saleBodyRequest: iSaleBodyRequest = {
         unitValue: parseInt(formValues.unitValue),
         amount: parseInt(formValues.amount),
-        paymentMethod: formValues.paymentMethod,
-        userId: userId,
+        paymentMethodId: parseInt(formValues.paymentMethodId),
         rutClient: formValues.rutClient,
-        createdBy: 'Chaleco',
-        lastModificationBy: null
+        createdBy: username,
+        lastModificationBy: username
     }
 
     if (openModalUpdate) {
@@ -42,18 +43,37 @@ export default function Sales() {
 
     async function getSales() {
         try {
-            const getUserId = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users/GetUserByUsername/${'Israel'}`)
-            setUserId(getUserId?.rut)
-            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Sales`)
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Sales/GetSales/${pagination}`)
             setSales(response)
         } catch (e) {
             console.error(e)
         }
     }
 
+    async function getPaymentMethod() {
+        try {
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/PaymentMethod/GetPaymentMethods`);
+            setPaymentMethods(response);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function getClients() {
+        try {
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Clients/GetClients`);
+            setClients(response);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     useEffect(() => {
+        getClients()
+        getPaymentMethod()
         getSales()
-    }, [])
+        console.log(clients)
+    }, [pagination])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -79,6 +99,13 @@ export default function Sales() {
 
     }, [filter, sales]);
 
+    const router = useRouter();
+    useEffect(() => {
+        if (!isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated])
+
     return (
         <div>
             <h1 className="text-2xl font-semibold opacity-65">Ventas</h1>
@@ -87,17 +114,16 @@ export default function Sales() {
                 headers={SALE_COLUMNS}
                 renderItem={(i) => (
                     <>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.id}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">${i.unitValue}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.amount}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">${i.totalValue}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.paymentMethod}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.username}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.rutClient}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.creationDate}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.createdBy}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.lastModificationDate}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.lastModificationBy}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.id}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">${i.unitValue}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.amount}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">${i.totalValue}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.paymentMethodName}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.rutClient}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.creationDate}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.createdBy}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.lastModificationDate}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.lastModificationBy}</td>
                         <td className="py-4 whitespace-nowrap">
                             <button
                                 onClick={() => {
@@ -108,8 +134,7 @@ export default function Sales() {
                                             unitValue: i.unitValue,
                                             amount: i.amount,
                                             totalValue: i.totalValue,
-                                            paymentMethod: i.paymentMethod,
-                                            username: i.username,
+                                            paymentMethodId: i.paymentMethodName,
                                             rutClient: i.rutClient
                                         }
                                     )
@@ -131,9 +156,28 @@ export default function Sales() {
                 >
                     <GenericInput label='Valor unitario' name='unitValue' type='number' handleChange={handleChange} />
                     <GenericInput label='Cantidad' name='amount' type='number' handleChange={handleChange} />
-                    <GenericInput label='Método pago' name='paymentMethod' type='text' handleChange={handleChange} />
-                    <GenericInput label='Encargado' name='username' type='text' value='Israel' handleChange={handleChange} />
-                    <GenericInput label='Cliente' name='rutClient' type='text' handleChange={handleChange} />
+                    <GenericInput
+                        label="Cliente"
+                        name="rutClient"
+                        type="text"
+                        required
+                        handleChange={handleChange}
+                        options={clients?.map(client => ({
+                            label: client.rut,
+                            value: client.rut
+                        }))}
+                    />
+                    <GenericInput
+                        label="Método de pago"
+                        name="paymentMethodId"
+                        type="number"
+                        required
+                        handleChange={handleChange}
+                        options={paymentMethods?.map(paymentMethod => ({
+                            label: paymentMethod.paymentMethodName,
+                            value: paymentMethod.id
+                        }))}
+                    />
                 </GenericCreate>
             }
             {
@@ -146,7 +190,29 @@ export default function Sales() {
                 >
                     <GenericInput label='Valor unitario' name='unitValue' type='number' value={formValues.unitValue} handleChange={handleChange} />
                     <GenericInput label='Cantidad' name='amount' type='number' value={formValues.amount} handleChange={handleChange} />
-                    <GenericInput label='Método pago' name='paymentMethod' type='text' value={formValues.paymentMethod} handleChange={handleChange} />
+                    <GenericInput
+                        label="Cliente"
+                        name="rutClient"
+                        type="text"
+                        required
+                        handleChange={handleChange}
+                        value={formValues.rutClient}
+                        options={clients?.map(client => ({
+                            label: client.rut,
+                            value: client.rut
+                        }))}
+                    />
+                    <GenericInput
+                        label="Método de pago"
+                        name="paymentMethodId"
+                        type="number"
+                        handleChange={handleChange}
+                        value={formValues.paymentMethodName}
+                        options={paymentMethods?.map(paymentMethod => ({
+                            label: paymentMethod.paymentMethodName,
+                            value: paymentMethod.id
+                        }))}
+                    />
                 </GenericUpdate>
             }
         </div>

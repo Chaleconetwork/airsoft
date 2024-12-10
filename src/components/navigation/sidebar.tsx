@@ -8,26 +8,31 @@ import { MdPlace } from "react-icons/md";
 import { useState } from "react";
 
 import Link from "next/link";
+import { useAuth } from "@/context/authContext";
 
 const links = [
     { href: '/dashboard', icon: <FaDisplay />, label: 'Panel' },
     { href: '/clients', icon: <FaUserTie />, label: 'Clientes' },
     { href: '/sales', icon: <AiFillDollarCircle />, label: 'Ventas' },
     { href: '/bills', icon: <FaMoneyBillWaveAlt />, label: 'Gastos' },
-    // { href: '/events', icon: <MdEmojiEvents />, label: 'Eventos' },
     { href: '/players', icon: <PiUsersFourFill />, label: 'Jugadores' },
-    { href: '/games', icon: <IoIosPlay />, label: 'Partidas' },
+    { href: '/games', icon: <IoIosPlay />, label: 'Panel de partidas' },
+    { href: '/fields', icon: <MdPlace />, label: 'Partidas' },
     { href: '/teams', icon: <RiTeamFill />, label: 'Equipos' },
-    { href: '/fields', icon: <MdPlace />, label: 'Canchas' },
     { href: '/users', icon: <FaUser />, label: 'Usuarios' }
 ];
 
 export const Sidebar: React.FC = () => {
+    const { logout } = useAuth();
     const [activeLink, setActiveLink] = useState<string>('/dashboard');
 
     const handleLinkClick = (link: string) => {
         setActiveLink(link);
     };
+
+    function handleRemoveToken() {
+        logout()
+    }
 
     return (
         <nav className="shadow-xl bg-white">
@@ -47,7 +52,7 @@ export const Sidebar: React.FC = () => {
                 ))}
                 <li className="border"></li>
                 <Link href='/'>
-                    <li className="flex gap-4 items-center text-sm rounded-xl px-4 py-3 delay-100 duration-500 text-gray-600 font-medium">
+                    <li onClick={handleRemoveToken} className="flex gap-4 items-center text-sm rounded-xl px-4 py-3 delay-100 duration-500 text-gray-600 font-medium">
                         <strong className="text-lg"> <IoLogOut /></strong>Cerrar sesión
                     </li>
                 </Link>

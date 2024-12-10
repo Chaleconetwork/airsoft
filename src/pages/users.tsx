@@ -8,10 +8,11 @@ import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
 import { iUser } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
+import { useRouter } from "next/router";
 
 export default function Users() {
     const [users, setUsers] = useState<iUser[]>([])
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination, isAuthenticated, username } = useAuth();
     const [filteredUsers, setFilteredUsers] = useState<iUser[]>([]);
 
     const [formValues, setFormValues] = useState<any>({
@@ -36,8 +37,8 @@ export default function Users() {
         username: formValues.username,
         status: formValues.status == 'true' ? true : false,
         roleId: parseInt(formValues.roleId),
-        createdBy: 'Chaleco',
-        lastModificationBy: null
+        createdBy: username,
+        lastModificationBy: username
     }
 
     if (openModalCreate) {
@@ -46,13 +47,13 @@ export default function Users() {
     }
 
     async function getUsers() {
-        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users`)
+        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Users/GetUsers/${pagination}`)
         setUsers(response)
     }
 
     useEffect(() => {
         getUsers()
-    }, [])
+    }, [pagination])
 
     useEffect(() => {
         try {
@@ -76,6 +77,13 @@ export default function Users() {
             [name]: value
         });
     };
+
+    const router = useRouter();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated])
 
     return (
         <div className="">
@@ -155,7 +163,9 @@ export default function Users() {
                             handleChange={handleChange}
                             options={[
                                 { label: "Administrador", value: "1" },
-                                { label: "Moderador", value: "2" }
+                                { label: "Moderador", value: "2" },
+                                { label: "Arbitro", value: "3" },
+                                { label: "Programador", value: "4" }
                             ]}
                         />
                     </div>

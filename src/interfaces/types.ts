@@ -4,7 +4,13 @@ export interface iRole {
 
 export interface iAuth {
     email: string;
-    password: string;
+    password?: string;
+}
+
+export interface iResetUserPassword {
+    email: string;
+    newPassword?: string;
+    newPassword2?: string;
 }
 
 export interface iUser {
@@ -28,8 +34,6 @@ export interface iPlayer {
     names?: string;
     surnames?: string;
     phone?: string;
-    teamName: string;
-    gameId: number;
     banned?: boolean;
     creationDate?: string;
     createdBy?: string;
@@ -49,18 +53,22 @@ export interface iClient {
     lastModificationBy: string;
 }
 
+export interface iPaymentMethod {
+    id: number;
+    paymentMethodName: string;
+}
+
 export interface iSale {
     id: number;
     unitValue: number;
     amount: number;
     totalValue: number;
-    paymentMethod: string;
-    username: string;
+    paymentMethodName: number;
     rutClient: string;
     creationDate?: string;
     createdBy?: string;
     lastModificationDate?: string;
-    lastModificationBy: string;
+    lastModificationBy?: string;
 }
 
 export interface iTeam {
@@ -74,11 +82,12 @@ export interface iTeam {
 
 export interface iField {
     id: number;
-    fieldName: string;
+    reservationDateInit?: string | null;
+    reservationDateEnd?: string | null;
     creationDate?: string;
     createdBy?: string;
     lastModificationDate?: string;
-    lastModificationBy: string;
+    lastModificationBy?: string;
 }
 
 export interface iEvent {
@@ -104,9 +113,11 @@ export interface iBill {
     lastModificationBy: string;
 }
 
-export interface iGame {
+export interface iPlayerGame {
     id?: number;
+    playerRut: string;
     fieldId: number;
+    teamId: number;
     creationDate?: string;
     createdBy?: string;
     lastModificationDate?: string;

@@ -19,10 +19,9 @@ interface Props<T> {
 export const GenericRead = <T extends ItemWithPrimaryKey>({ array, renderItem, headers }: Props<T>) => {
     const [highlightIndex, setHighlightIndex] = useState<number | string | null>(null); // Índice destacado
     const { highlightActivate, primaryKey, handleCleanPrimaryKey } = useAuth();
-    const [message, setMessage] = useState<string>('');
 
     useEffect(() => {
-        setMessage('No se han encontrado registros.');
+        // setMessage('No se han encontrado registros.');
         console.log('primarykey: ', primaryKey)
         setHighlightIndex(primaryKey);
         const timer = setTimeout(() => (handleCleanPrimaryKey(), setHighlightIndex(null)), 2000);
@@ -47,7 +46,7 @@ export const GenericRead = <T extends ItemWithPrimaryKey>({ array, renderItem, h
                                 </tr>
                             </thead>
                             <tbody className="text-sm font-medium rounded-lg delay-100 duration-500">
-                                {array && array.length > 0 ? (
+                                {array && (
                                     array.map((item, index) => (
                                         <tr
                                             key={index}
@@ -62,12 +61,6 @@ export const GenericRead = <T extends ItemWithPrimaryKey>({ array, renderItem, h
                                             {renderItem(item)}
                                         </tr>
                                     ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={headers.length} className="py-4 text-center font-bold text-gray-600">
-                                            {message}
-                                        </td>
-                                    </tr>
                                 )}
                             </tbody>
                         </table>

@@ -10,7 +10,7 @@ import { iBill } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
 
 export default function Bills() {
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination } = useAuth();
     const [filteredBills, setFilteredBills] = useState<iBill[]>([]);
     const [bills, setBills] = useState<iBill[]>([])
 
@@ -35,7 +35,7 @@ export default function Bills() {
 
     async function getBills() {
         try {
-            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Bills`)
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Bills/GetBills/${pagination}`)
             setBills(response)
         } catch (e) {
             console.error(e)
@@ -44,7 +44,7 @@ export default function Bills() {
 
     useEffect(() => {
         getBills()
-    }, [])
+    }, [pagination])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -79,16 +79,16 @@ export default function Bills() {
                 headers={BILL_COLUMNS}
                 renderItem={(i) => (
                     <>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.id}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.product}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">${i.unitValue}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.amount}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">${i.totalValue}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.supplier}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.creationDate}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.createdBy}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.lastModificationDate}</td>
-                        <td className="py-4 whitespace-nowrap text-sm font-medium text-gray-900">{i.lastModificationBy}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.id}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.product}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">${i.unitValue}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.amount}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">${i.totalValue}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.supplier}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.creationDate}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.createdBy}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.lastModificationDate}</td>
+                        <td className="py-4 whitespace-nowrap text-sm">{i.lastModificationBy}</td>
                         <td className="py-4 whitespace-nowrap">
                             <button
                                 onClick={() => {
@@ -111,7 +111,6 @@ export default function Bills() {
                         </td>
                     </>
                 )} />
-
             {
                 openModalCreate && <GenericCreate
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Bills/CreateBill`}

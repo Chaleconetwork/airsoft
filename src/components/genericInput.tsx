@@ -2,7 +2,6 @@ interface Props {
     label: string;
     name: string;
     type: string;
-    // htmlFor: string;
     required?: boolean;
     value?: string;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;

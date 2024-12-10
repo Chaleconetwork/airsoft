@@ -8,12 +8,12 @@ import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
 import { iTeam } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
+import { useRouter } from "next/router";
 
 export default function Teams() {
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination, isAuthenticated } = useAuth();
     const [filteredTeams, setFilteredTeams] = useState<iTeam[]>([]);
     const [teams, setTeams] = useState<iTeam[]>([])
-    const [getId, setGetId] = useState<any>()
 
     const [formValues, setFormValues] = useState<any>({
         id: '',
@@ -33,7 +33,7 @@ export default function Teams() {
     }
 
     async function getTeams() {
-        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Teams`)
+        const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Teams/GetTeams/${pagination}`)
 
         setTeams(response)
         setFilteredTeams(response); //
@@ -41,7 +41,7 @@ export default function Teams() {
 
     useEffect(() => {
         getTeams()
-    }, [])
+    }, [pagination])
 
     useEffect(() => {
         try {
@@ -63,6 +63,13 @@ export default function Teams() {
             [name]: value
         });
     };
+
+    const router = useRouter();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated])
 
     return (
         <div className="">

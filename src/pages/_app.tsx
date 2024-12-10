@@ -9,7 +9,7 @@ import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter()
-    const hideSidebar = router.pathname === '/' || router.pathname === '/login' || router.pathname === '/signup' ? false : true
+    const hideSidebar = router.pathname === '/' || router.pathname === '/forgotPassword' || router.pathname === '/resetPassword' || router.pathname === '/login' || router.pathname === '/signup' ? false : true
 
     return (
         <AuthProvider>
