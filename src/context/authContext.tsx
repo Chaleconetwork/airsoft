@@ -6,8 +6,8 @@ export const AuthContext = createContext<iAuthContext | undefined>(undefined);
 export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
     const [highlightActivate, setHighlightActivate] = useState<boolean | null>(null);
     const [primaryKey, setPrimaryKey] = useState<string | number | null>(null);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isResetedPassword, setIsResetedPassword] = useState<boolean>(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
     const [openModalUpdate, setOpenModalUpdate] = useState<boolean>(false);
     const [filter, setFilter] = useState<Record<string, string>>({});
@@ -23,15 +23,11 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
             setIsAuthenticated(true);
         }
 
-        if (resetPasswordToken) {
-            setIsResetedPassword(true)
-        }
-
     }, [openModalCreate, openModalUpdate]);
     
     const resetPassword = (token: string) => {
         localStorage.setItem('resetPasswordToken', token);
-        setIsResetedPassword(true)
+        // setIsResetedPassword(true)
     };
 
     const login = (token: string) => {
@@ -119,7 +115,8 @@ export const AuthProvider: React.FC<iAuthProvider> = ({ children }) => {
                 handleRolename,
                 rolename,
                 resetPassword,
-                isResetedPassword
+                isResetedPassword,
+                setIsResetedPassword
             }}>
             {children}
         </AuthContext.Provider>

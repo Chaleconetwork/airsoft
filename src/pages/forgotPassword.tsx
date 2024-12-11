@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function ForgotPassword() {
-    const { resetPassword } = useAuth();
+    const { resetPassword, setIsResetedPassword } = useAuth();
     const [data, setData] = useState<iAuth>({ email: '' });
     const [message, setMessage] = useState<string>('')
     const router = useRouter();
@@ -33,6 +33,7 @@ export default function ForgotPassword() {
 
             if (response?.token) {
                 resetPassword(response.token);
+                // setIsResetedPassword(true)
                 setMessage('Hemos enviado un correo electrónico a la dirección asociada con tu cuenta para restablecer tu contraseña.')
             } else {
                 alert('El correo ingresado no pertenece a un usuario');

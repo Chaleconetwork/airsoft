@@ -8,9 +8,10 @@ import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
 import { iBill } from "@/interfaces/types";
 import { Fetch } from "@/utils/api/fetch";
+import { useRouter } from "next/router";
 
 export default function Bills() {
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination, isAuthenticated } = useAuth();
     const [filteredBills, setFilteredBills] = useState<iBill[]>([]);
     const [bills, setBills] = useState<iBill[]>([])
 
@@ -70,6 +71,13 @@ export default function Bills() {
         }
 
     }, [filter, bills]);
+
+    const router = useRouter();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated])
 
     return (
         <div>

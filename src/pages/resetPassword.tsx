@@ -5,10 +5,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function ResetPassword() {
-    const { isResetedPassword } = useAuth();
+    const { isResetedPassword, setIsResetedPassword } = useAuth();
     const [data, setData] = useState<iResetUserPassword>({ email: '', newPassword: '', newPassword2: '' });
     const [message, setMessage] = useState<string>('')
     const router = useRouter();
+
+    const [isInitialized, setIsInitialized] = useState(false);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setData({ ...data, [e.target.name]: e.target.value });
@@ -32,7 +34,9 @@ export default function ResetPassword() {
             const response = await Fetch.post(`${process.env.NEXT_PUBLIC_API_URL}/Auth/ForgotPassword`, resetUserPasswordbodyRequest);
 
             if (response) {
-                // resetPassword(response.token);
+                localStorage.removeItem("resetPasswordToken");
+                setIsResetedPassword(false)
+                setIsInitialized(false)
                 setMessage('Su contraseña ha sido actualizada correctamente')
                 router.push("/dashboard");
             }
@@ -49,12 +53,19 @@ export default function ResetPassword() {
         return () => clearInterval(intervalo);
     }, [message])
 
-    // useEffect(() => {
-    //     if (!isResetedPassword) {
-    //         router.push("/");
-    //     }
-    //     console.log(isResetedPassword)
-    // }, [isResetedPassword])
+    useEffect(() => {
+        const resetPasswordToken = localStorage.getItem('resetPasswordToken');
+        if (resetPasswordToken) {
+            setIsResetedPassword(true);
+        }
+        setIsInitialized(true);
+    }, []);
+
+    useEffect(() => {
+        if (isInitialized && !isResetedPassword) {
+            router.push("/");
+        }
+    }, [isResetedPassword, isInitialized]);
 
     return (
         <div className="max-w-[30%] flex items-center mx-auto h-full">

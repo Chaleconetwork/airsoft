@@ -31,7 +31,6 @@ export const Login = () => {
             const response = await Fetch.post(`${process.env.NEXT_PUBLIC_API_URL}/Auth/Login`, LoginbodyRequest);
 
             if (response?.token) {
-                // Store token in localStorage and update authentication state
                 login(response.token);
                 console.log(response.username)
                 handleUsername(response.username)

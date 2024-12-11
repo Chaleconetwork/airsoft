@@ -29,7 +29,7 @@ export const Fetch = {
         let headers = {}
         const token = localStorage.getItem('authToken')
         const resetPasswordToken = localStorage.getItem('resetPasswordToken')
-        console.log('token: ', token)
+        
         console.log('resetPasswordToken: ', resetPasswordToken)
         if (token) {
             headers = {

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 export interface iAuthContext {
     isAuthenticated: boolean;
     isResetedPassword: boolean;
+    setIsResetedPassword: React.Dispatch<React.SetStateAction<boolean>>;
     login: (token: string) => void;
     resetPassword: (token: string) => void;
     logout: () => void;
@@ -26,7 +27,6 @@ export interface iAuthContext {
     username: string
     handleRolename: (rolename: string) => void;
     rolename: string;
-    // handleClickFilter: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface iAuthProvider {
