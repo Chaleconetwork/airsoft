@@ -70,7 +70,7 @@ export default function Games() {
 
     async function getPlayers() {
         try {
-            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Players/GetPlayers`);
+            const response = await Fetch.get(`${process.env.NEXT_PUBLIC_API_URL}/Players/GetPlayersNoBanned`);
             setPlayers(response);
         } catch (e) {
             console.error(e);

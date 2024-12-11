@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 export default function Users() {
     const [users, setUsers] = useState<iUser[]>([])
-    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination, isAuthenticated, username } = useAuth();
+    const { openModalCreate, openModalUpdate, handleOpenModalUpdate, filter, pagination, isAuthenticated, username, rolename } = useAuth();
     const [filteredUsers, setFilteredUsers] = useState<iUser[]>([]);
 
     const [formValues, setFormValues] = useState<any>({
@@ -131,7 +131,7 @@ export default function Users() {
                 )} />
 
             {
-                openModalCreate && <GenericCreate
+                openModalCreate && rolename === 'Administrador' && <GenericCreate
                     url={`${process.env.NEXT_PUBLIC_API_URL}/Users/CreateUser`}
                     bodyRequest={userBodyRequest}
                     entityName='nuevo usuario'
